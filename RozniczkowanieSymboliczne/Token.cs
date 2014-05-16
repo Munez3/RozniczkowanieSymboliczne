@@ -13,7 +13,8 @@ namespace RozniczkowanieSymboliczne
         opMinus, opPlus, opMnozenie, opDzielenie, opPotega, 
         przecinek, Lnawias, Pnawias, 
         sinFun, cosFun, tgFun, ctgFun, logFun,
-        ident, liczba
+        ident, liczba, 
+        forSem, beginSem, endSem, dwukropek
     }; 
 
     /// <summary>
@@ -23,5 +24,11 @@ namespace RozniczkowanieSymboliczne
     {
         TokenName Nazwa { set; get; }
         String Wartosc { set; get; }
+
+        public Token(TokenName _tokenName, string _wartosc)
+        {
+            Nazwa = _tokenName;
+            Wartosc = _wartosc;
+        }
     }
 }
