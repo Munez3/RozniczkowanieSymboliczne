@@ -16,31 +16,6 @@ namespace RozniczkowanieSymboliczne
             InitializeComponent();
         }
 
-        private void WprowadzFormulaLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void BasicPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void FormulaPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void podstawowyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BasicPanel.Visible=true;
@@ -61,5 +36,6 @@ namespace RozniczkowanieSymboliczne
             FilePanel.Visible = true;
             FormulaPanel.Visible = false;
         }
+
     }
 }
