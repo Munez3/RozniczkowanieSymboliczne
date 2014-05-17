@@ -48,9 +48,11 @@ namespace RozniczkowanieSymboliczne
                 {
                     OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
                 }
+                Parser parser = new Parser(tokeny);
+                parser.Parse();
                 //TODO
             }
-            catch (Exception ex) { OutputTB.Text = ex.Message; }
+            catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
         }
 
         private void liczProsteBtn_Click(object sender, EventArgs e)

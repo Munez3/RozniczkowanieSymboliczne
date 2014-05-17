@@ -24,11 +24,15 @@ namespace RozniczkowanieSymboliczne
     {
         public TokenName Nazwa { set; get; }
         public String Wartosc { set; get; }
+        public int Linia { set; get; }
+        public int Znak { set; get; }
 
-        public Token(TokenName _tokenName, string _wartosc)
+        public Token(TokenName _tokenName, string _wartosc, int _linia, int _znak)
         {
             Nazwa = _tokenName;
             Wartosc = _wartosc;
+            Linia = _linia;
+            Znak = _znak;
         }
     }
 }
