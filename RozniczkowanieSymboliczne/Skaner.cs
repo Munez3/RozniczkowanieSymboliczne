@@ -34,7 +34,12 @@ namespace RozniczkowanieSymboliczne
             //Białe znaki
             while (actualTokenIndex < textToParse.Length && Char.IsWhiteSpace(textToParse[actualTokenIndex]))
             {
-                if (textToParse[actualTokenIndex] == '\n') { linia++; znak = 0; }
+                if (textToParse[actualTokenIndex] == '\n') 
+                { 
+                    linia++; znak = 0;
+                    actualTokenIndex++;
+                    return new Token(TokenName.nowaLinia, "\n");
+                }
                 else znak++;
                 actualTokenIndex++;
             }
@@ -132,6 +137,12 @@ namespace RozniczkowanieSymboliczne
                             {
                                 actualTokenIndex += 3; znak += 3;
                                 return new Token(TokenName.logFun, "log");
+                            }
+                            //log
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("exp"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.expFun, "exp");
                             }
                         }                        
                     }

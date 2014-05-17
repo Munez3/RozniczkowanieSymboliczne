@@ -41,19 +41,24 @@
             this.label1 = new System.Windows.Forms.Label();
             this.OutputTB = new System.Windows.Forms.RichTextBox();
             this.FormulaPanel = new System.Windows.Forms.Panel();
+            this.liczProgramBtn = new System.Windows.Forms.Button();
             this.WprowadzFormulaLabel = new System.Windows.Forms.Label();
             this.FormulaTB = new System.Windows.Forms.RichTextBox();
             this.FilePanel = new System.Windows.Forms.Panel();
             this.outputPanel = new System.Windows.Forms.Panel();
-            this.outputTopPanel = new System.Windows.Forms.Panel();
             this.outputFillPanel = new System.Windows.Forms.Panel();
-            this.liczProgramBtn = new System.Windows.Forms.Button();
+            this.outputTopPanel = new System.Windows.Forms.Panel();
+            this.liczFileBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.filePathTB = new System.Windows.Forms.TextBox();
+            this.filePathBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
+            this.FilePanel.SuspendLayout();
             this.outputPanel.SuspendLayout();
-            this.outputTopPanel.SuspendLayout();
             this.outputFillPanel.SuspendLayout();
+            this.outputTopPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -170,6 +175,16 @@
             this.FormulaPanel.Size = new System.Drawing.Size(562, 544);
             this.FormulaPanel.TabIndex = 3;
             // 
+            // liczProgramBtn
+            // 
+            this.liczProgramBtn.Location = new System.Drawing.Point(15, 213);
+            this.liczProgramBtn.Name = "liczProgramBtn";
+            this.liczProgramBtn.Size = new System.Drawing.Size(75, 23);
+            this.liczProgramBtn.TabIndex = 2;
+            this.liczProgramBtn.Text = "Licz";
+            this.liczProgramBtn.UseVisualStyleBackColor = true;
+            this.liczProgramBtn.Click += new System.EventHandler(this.liczProgramBtn_Click);
+            // 
             // WprowadzFormulaLabel
             // 
             this.WprowadzFormulaLabel.AutoSize = true;
@@ -186,10 +201,14 @@
             this.FormulaTB.Name = "FormulaTB";
             this.FormulaTB.Size = new System.Drawing.Size(517, 140);
             this.FormulaTB.TabIndex = 0;
-            this.FormulaTB.Text = "";
+            this.FormulaTB.Text = "for i=0:10\nbegin\n\tx^3+4*x+2\n\t2*x^3+2*sin(log(2,50*x)+20*x)^3\nend";
             // 
             // FilePanel
             // 
+            this.FilePanel.Controls.Add(this.filePathBtn);
+            this.FilePanel.Controls.Add(this.filePathTB);
+            this.FilePanel.Controls.Add(this.label2);
+            this.FilePanel.Controls.Add(this.liczFileBtn);
             this.FilePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FilePanel.Location = new System.Drawing.Point(0, 0);
             this.FilePanel.Name = "FilePanel";
@@ -206,15 +225,6 @@
             this.outputPanel.Size = new System.Drawing.Size(562, 302);
             this.outputPanel.TabIndex = 6;
             // 
-            // outputTopPanel
-            // 
-            this.outputTopPanel.Controls.Add(this.label1);
-            this.outputTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.outputTopPanel.Location = new System.Drawing.Point(0, 0);
-            this.outputTopPanel.Name = "outputTopPanel";
-            this.outputTopPanel.Size = new System.Drawing.Size(562, 18);
-            this.outputTopPanel.TabIndex = 5;
-            // 
             // outputFillPanel
             // 
             this.outputFillPanel.Controls.Add(this.OutputTB);
@@ -224,15 +234,50 @@
             this.outputFillPanel.Size = new System.Drawing.Size(562, 284);
             this.outputFillPanel.TabIndex = 6;
             // 
-            // liczProgramBtn
+            // outputTopPanel
             // 
-            this.liczProgramBtn.Location = new System.Drawing.Point(15, 213);
-            this.liczProgramBtn.Name = "liczProgramBtn";
-            this.liczProgramBtn.Size = new System.Drawing.Size(75, 23);
-            this.liczProgramBtn.TabIndex = 2;
-            this.liczProgramBtn.Text = "Licz";
-            this.liczProgramBtn.UseVisualStyleBackColor = true;
-            this.liczProgramBtn.Click += new System.EventHandler(this.liczProgramBtn_Click);
+            this.outputTopPanel.Controls.Add(this.label1);
+            this.outputTopPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.outputTopPanel.Location = new System.Drawing.Point(0, 0);
+            this.outputTopPanel.Name = "outputTopPanel";
+            this.outputTopPanel.Size = new System.Drawing.Size(562, 18);
+            this.outputTopPanel.TabIndex = 5;
+            // 
+            // liczFileBtn
+            // 
+            this.liczFileBtn.Location = new System.Drawing.Point(447, 57);
+            this.liczFileBtn.Name = "liczFileBtn";
+            this.liczFileBtn.Size = new System.Drawing.Size(72, 21);
+            this.liczFileBtn.TabIndex = 0;
+            this.liczFileBtn.Text = "Licz";
+            this.liczFileBtn.UseVisualStyleBackColor = true;
+            this.liczFileBtn.Click += new System.EventHandler(this.liczFileBtn_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Ścieżka do pliku:";
+            // 
+            // filePathTB
+            // 
+            this.filePathTB.Location = new System.Drawing.Point(120, 57);
+            this.filePathTB.Name = "filePathTB";
+            this.filePathTB.Size = new System.Drawing.Size(280, 20);
+            this.filePathTB.TabIndex = 2;
+            // 
+            // filePathBtn
+            // 
+            this.filePathBtn.Location = new System.Drawing.Point(406, 57);
+            this.filePathBtn.Name = "filePathBtn";
+            this.filePathBtn.Size = new System.Drawing.Size(33, 21);
+            this.filePathBtn.TabIndex = 3;
+            this.filePathBtn.Text = "...";
+            this.filePathBtn.UseVisualStyleBackColor = true;
+            this.filePathBtn.Click += new System.EventHandler(this.filePathBtn_Click);
             // 
             // BasicForm
             // 
@@ -241,9 +286,9 @@
             this.ClientSize = new System.Drawing.Size(562, 544);
             this.Controls.Add(this.outputPanel);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.BasicPanel);
             this.Controls.Add(this.FormulaPanel);
             this.Controls.Add(this.FilePanel);
+            this.Controls.Add(this.BasicPanel);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "BasicForm";
             this.Text = "Różniczkowanie Symboliczne";
@@ -253,10 +298,12 @@
             this.BasicPanel.PerformLayout();
             this.FormulaPanel.ResumeLayout(false);
             this.FormulaPanel.PerformLayout();
+            this.FilePanel.ResumeLayout(false);
+            this.FilePanel.PerformLayout();
             this.outputPanel.ResumeLayout(false);
+            this.outputFillPanel.ResumeLayout(false);
             this.outputTopPanel.ResumeLayout(false);
             this.outputTopPanel.PerformLayout();
-            this.outputFillPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,6 +331,10 @@
         private System.Windows.Forms.Panel outputTopPanel;
         private System.Windows.Forms.Panel outputFillPanel;
         private System.Windows.Forms.Button liczProgramBtn;
+        private System.Windows.Forms.Button liczFileBtn;
+        private System.Windows.Forms.Button filePathBtn;
+        private System.Windows.Forms.TextBox filePathTB;
+        private System.Windows.Forms.Label label2;
     }
 }
 

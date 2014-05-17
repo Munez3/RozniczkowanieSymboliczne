@@ -69,5 +69,27 @@ namespace RozniczkowanieSymboliczne
             catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
 
+        private void liczFileBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Skaner skaner = new Skaner(filePathTB.Text, Mode.File);
+                List<Token> tokeny = skaner.GetAllTokens();
+                OutputTB.Text = "";
+                foreach (var token in tokeny)
+                {
+                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                }
+                //TODO
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
+        }
+
+        private void filePathBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == DialogResult.OK) filePathTB.Text = file.FileName;
+        }
+
     }
 }
