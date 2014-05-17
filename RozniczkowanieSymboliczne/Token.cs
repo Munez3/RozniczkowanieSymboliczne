@@ -14,7 +14,7 @@ namespace RozniczkowanieSymboliczne
         przecinek, Lnawias, Pnawias, 
         sinFun, cosFun, tgFun, ctgFun, logFun,
         ident, liczba, 
-        forSem, beginSem, endSem, dwukropek
+        forSem, beginSem, endSem, dwukropek, opRowne
     }; 
 
     /// <summary>
@@ -22,8 +22,8 @@ namespace RozniczkowanieSymboliczne
     /// </summary>
     class Token
     {
-        TokenName Nazwa { set; get; }
-        String Wartosc { set; get; }
+        public TokenName Nazwa { set; get; }
+        public String Wartosc { set; get; }
 
         public Token(TokenName _tokenName, string _wartosc)
         {

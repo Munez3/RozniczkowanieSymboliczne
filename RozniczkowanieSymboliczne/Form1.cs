@@ -37,5 +37,37 @@ namespace RozniczkowanieSymboliczne
             FormulaPanel.Visible = false;
         }
 
+        private void liczProgramBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Skaner skaner = new Skaner(FormulaTB.Text, Mode.Programmer);
+                List<Token> tokeny = skaner.GetAllTokens();
+                OutputTB.Text = "";
+                foreach (var token in tokeny)
+                {
+                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                }
+                //TODO
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
+        }
+
+        private void liczProsteBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
+                List<Token> tokeny = skaner.GetAllTokens();
+                OutputTB.Text = "";
+                foreach (var token in tokeny)
+                {
+                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                }
+                //TODO
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
+        }
+
     }
 }

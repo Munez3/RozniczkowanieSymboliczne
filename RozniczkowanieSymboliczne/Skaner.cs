@@ -15,8 +15,8 @@ namespace RozniczkowanieSymboliczne
     {
         private string textToParse;
         private int actualTokenIndex = 0;
-        private int linia = 0;
-        private int znak = 0;
+        private int linia = 1;
+        private int znak = 1;
 
         public Skaner(string textOrFileName, Mode mode)
         {
@@ -51,6 +51,7 @@ namespace RozniczkowanieSymboliczne
                 if (textToParse[actualTokenIndex] == ':') { actualTokenIndex++; znak++; return new Token(TokenName.dwukropek, ":"); }
                 if (textToParse[actualTokenIndex] == '(') { actualTokenIndex++; znak++; return new Token(TokenName.Lnawias, "("); }
                 if (textToParse[actualTokenIndex] == ')') { actualTokenIndex++; znak++; return new Token(TokenName.Pnawias, ")"); }
+                if (textToParse[actualTokenIndex] == '=') { actualTokenIndex++; znak++; return new Token(TokenName.opRowne, "="); }
 
                 //liczba
                 if(Char.IsNumber(textToParse[actualTokenIndex]))
@@ -62,11 +63,13 @@ namespace RozniczkowanieSymboliczne
                         if (textToParse[actualTokenIndex] == '.')
                         {
                             iloscKropek++;
-                            if (iloscKropek > 1) throw new Exception("("+linia+":"+znak+") Nieprawidłowa liczba!");
+                            if (iloscKropek > 1) throw new Exception("(" + linia + ":" + znak + ") Nieprawidłowa liczba '" + wartosc + textToParse[actualTokenIndex] + "' !");
                         }
                         wartosc += textToParse[actualTokenIndex];
                         actualTokenIndex++; znak++;
                     }
+                    if(actualTokenIndex != textToParse.Length && Char.IsLetter(textToParse[actualTokenIndex]))
+                        throw new Exception("(" + linia + ":" + znak + ") Nieprawidłowa liczba '"+wartosc+textToParse[actualTokenIndex]+"' !");
 
                     return new Token(TokenName.liczba, wartosc);
                 }
@@ -74,9 +77,85 @@ namespace RozniczkowanieSymboliczne
                 //ident, for, begin, end, funkcje
                 if(Char.IsLetter(textToParse[actualTokenIndex]))
                 {
-                    string wartosc = "";
+                    //tg
+                    if (actualTokenIndex + 1 < textToParse.Length && textToParse.Substring(actualTokenIndex, 2).Equals("tg")
+                        && (actualTokenIndex + 2 == textToParse.Length || textToParse[actualTokenIndex + 2] == '('))
+                    {
+                        actualTokenIndex += 2; znak += 2;
+                        return new Token(TokenName.tgFun, "tg");
+                    }
 
-                    //TODO
+                    //dlugosc 3
+                    if (actualTokenIndex + 2 < textToParse.Length)
+                    {
+                        //spacja po nazwie
+                        if (actualTokenIndex + 3 == textToParse.Length || Char.IsWhiteSpace(textToParse[actualTokenIndex + 3]))
+                        {
+                            //for
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("for"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.forSem, "for");
+                            }
+                            //end
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("end"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.endSem, "end");
+                            }
+                        }
+
+                        //nawias po nazwie
+                        if (actualTokenIndex + 3 == textToParse.Length || textToParse[actualTokenIndex + 3] == '(')
+                        {
+                            //sin
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("sin"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.sinFun, "sin");
+                            }
+                            //cos
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("cos"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.cosFun, "cos");
+                            }
+
+                            //ctg
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("ctg"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.ctgFun, "ctg");
+                            }
+                            //log
+                            if (textToParse.Substring(actualTokenIndex, 3).Equals("log"))
+                            {
+                                actualTokenIndex += 3; znak += 3;
+                                return new Token(TokenName.logFun, "log");
+                            }
+                        }                        
+                    }
+
+                    //begin
+                    if (actualTokenIndex + 4 < textToParse.Length && textToParse.Substring(actualTokenIndex, 5).Equals("begin")
+                        && (actualTokenIndex + 3 == textToParse.Length || Char.IsWhiteSpace(textToParse[actualTokenIndex + 3])))
+                    {
+                        actualTokenIndex += 5; znak += 5;
+                        return new Token(TokenName.beginSem, "begin");
+                    }
+
+                    //ident
+                    string wartosc = "";
+                    while (actualTokenIndex < textToParse.Length && Char.IsLetter(textToParse[actualTokenIndex]))
+                    {
+                        wartosc += textToParse[actualTokenIndex];
+                        actualTokenIndex++; znak++;
+                    }
+                    if (actualTokenIndex != textToParse.Length)
+                    {
+                        if (textToParse[actualTokenIndex] == '(') throw new Exception("(" + linia + ":" + znak + ") Nierozpoznana funkcja: '" + wartosc + "' !");
+                        if (Char.IsNumber(textToParse[actualTokenIndex])) throw new Exception("(" + linia + ":" + znak + ") Niedozwolony identyfikator: '" + wartosc + textToParse[actualTokenIndex] + "' !");
+                    }
 
                     return new Token(TokenName.ident, wartosc);
                 }
@@ -94,7 +173,7 @@ namespace RozniczkowanieSymboliczne
         /// <returns>Lista tokenów</returns>
         public List<Token> GetAllTokens()
         {
-            actualTokenIndex = 0; linia = 0; znak = 0;
+            actualTokenIndex = 0; linia = 1; znak = 1;
             List<Token> tokens = new List<Token>();
             Token token;
             while ((token = GetNextToken()) != null)
