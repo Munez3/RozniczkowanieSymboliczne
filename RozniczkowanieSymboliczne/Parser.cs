@@ -22,17 +22,7 @@ namespace RozniczkowanieSymboliczne
             while(actualTokenIndex < tokenyLength)
             {
                 if (tokeny[actualTokenIndex].Nazwa == TokenName.forSem) sprawdz_petle();
-                else
-                {
-                    if (tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-                    else
-                    {
-                        sprawdz_wyrazenie();
-                        //newline
-                        if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-                        else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Wyrażenia rozdzielaj nową linią!");
-                    }
-                }
+                else sprawdz_linie();
             }
             return true;
         }
@@ -66,17 +56,8 @@ namespace RozniczkowanieSymboliczne
                 else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Po begin umieszczaj nową linię!");
 
                 //end
-                while (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa != TokenName.endSem)
-                {
-                    if (tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-                    else
-                    {
-                        sprawdz_wyrazenie();
-                        //newline
-                        if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-                        else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Wyrażenia rozdzielaj nową linią!");
-                    }
-                }
+                while (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa != TokenName.endSem) sprawdz_linie();
+
                 if (actualTokenIndex == tokenyLength) throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak instrukcji End!");
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.endSem) actualTokenIndex++;
                 
@@ -85,6 +66,25 @@ namespace RozniczkowanieSymboliczne
                 else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Wyrażenia rozdzielaj nową linią!");
             }
             else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Błąd konstrukcji pętli!");
+        }
+
+        private void sprawdz_linie()
+        {
+            if (tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
+            else
+            {
+                if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.hash)
+                {
+                    actualTokenIndex++;
+                    if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.ident) actualTokenIndex++;
+                    else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Podaj zmienną po której różniczkować!");
+                }
+
+                sprawdz_wyrazenie();
+                //newline
+                if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
+                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Wyrażenia rozdzielaj nową linią!");
+            }
         }
 
         private void sprawdz_wyrazenie()

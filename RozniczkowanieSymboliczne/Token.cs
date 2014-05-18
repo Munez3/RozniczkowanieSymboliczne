@@ -11,7 +11,7 @@ namespace RozniczkowanieSymboliczne
     public enum TokenName 
     { 
         opMinus, opPlus, opMnozenie, opDzielenie, opPotega, 
-        przecinek, Lnawias, Pnawias, 
+        przecinek, Lnawias, Pnawias, hash,
         sinFun, cosFun, tgFun, ctgFun, logFun, expFun,
         ident, liczba, 
         forSem, beginSem, endSem, dwukropek, opRowne, nowaLinia

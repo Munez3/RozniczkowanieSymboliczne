@@ -57,6 +57,7 @@ namespace RozniczkowanieSymboliczne
                 if (textToParse[actualTokenIndex] == '(') { actualTokenIndex++; znak++; return new Token(TokenName.Lnawias, "(", linia, znak); }
                 if (textToParse[actualTokenIndex] == ')') { actualTokenIndex++; znak++; return new Token(TokenName.Pnawias, ")", linia, znak); }
                 if (textToParse[actualTokenIndex] == '=') { actualTokenIndex++; znak++; return new Token(TokenName.opRowne, "=", linia, znak); }
+                if (textToParse[actualTokenIndex] == '#') { actualTokenIndex++; znak++; return new Token(TokenName.hash, "#", linia, znak); }
 
                 //liczba
                 if(Char.IsNumber(textToParse[actualTokenIndex]))
