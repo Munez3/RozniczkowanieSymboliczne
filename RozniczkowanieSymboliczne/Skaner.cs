@@ -58,6 +58,18 @@ namespace RozniczkowanieSymboliczne
                 if (textToParse[actualTokenIndex] == ')') { actualTokenIndex++; znak++; return new Token(TokenName.Pnawias, ")", linia, znak); }
                 if (textToParse[actualTokenIndex] == '=') { actualTokenIndex++; znak++; return new Token(TokenName.opRowne, "=", linia, znak); }
                 if (textToParse[actualTokenIndex] == '#') { actualTokenIndex++; znak++; return new Token(TokenName.hash, "#", linia, znak); }
+                if (textToParse[actualTokenIndex] == '%') 
+                {
+                    actualTokenIndex++;
+                    while (actualTokenIndex != textToParse.Length && textToParse[actualTokenIndex] != '\n') actualTokenIndex++;
+                    if (actualTokenIndex == textToParse.Length) throw new Exception("(" + linia + ":" + znak + ") Błąd komentarza!");
+                    else
+                    {
+                        linia++; znak = 0;
+                        actualTokenIndex++;
+                        return new Token(TokenName.nowaLinia, "\n", linia, znak);
+                    }
+                }
 
                 //liczba
                 if(Char.IsNumber(textToParse[actualTokenIndex]))
@@ -146,14 +158,6 @@ namespace RozniczkowanieSymboliczne
                                 return new Token(TokenName.expFun, "exp", linia, znak);
                             }
                         }                        
-                    }
-
-                    //begin
-                    if (actualTokenIndex + 4 < textToParse.Length && textToParse.Substring(actualTokenIndex, 5).Equals("begin")
-                        && (actualTokenIndex + 5 == textToParse.Length || Char.IsWhiteSpace(textToParse[actualTokenIndex + 5])))
-                    {
-                        actualTokenIndex += 5; znak += 5;
-                        return new Token(TokenName.beginSem, "begin", linia, znak);
                     }
 
                     //ident

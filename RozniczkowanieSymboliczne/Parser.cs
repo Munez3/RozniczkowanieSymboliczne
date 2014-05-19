@@ -44,13 +44,6 @@ namespace RozniczkowanieSymboliczne
                     else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Błąd konstrukcji pętli!");
                 }
 
-                //opcjonalne newline
-                if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-
-                //begin
-                if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.beginSem) actualTokenIndex++;
-                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak instrukcji Begin!");
-
                 //newline
                 if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
                 else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Po begin umieszczaj nową linię!");

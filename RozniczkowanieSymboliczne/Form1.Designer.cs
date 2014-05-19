@@ -45,13 +45,13 @@
             this.WprowadzFormulaLabel = new System.Windows.Forms.Label();
             this.FormulaTB = new System.Windows.Forms.RichTextBox();
             this.FilePanel = new System.Windows.Forms.Panel();
+            this.filePathBtn = new System.Windows.Forms.Button();
+            this.filePathTB = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.liczFileBtn = new System.Windows.Forms.Button();
             this.outputPanel = new System.Windows.Forms.Panel();
             this.outputFillPanel = new System.Windows.Forms.Panel();
             this.outputTopPanel = new System.Windows.Forms.Panel();
-            this.liczFileBtn = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.filePathTB = new System.Windows.Forms.TextBox();
-            this.filePathBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -201,7 +201,8 @@
             this.FormulaTB.Name = "FormulaTB";
             this.FormulaTB.Size = new System.Drawing.Size(517, 140);
             this.FormulaTB.TabIndex = 0;
-            this.FormulaTB.Text = "for i=0:10\nbegin\n\tx^3+4*x+2\n\t2*x^3+2*sin(log(2,50*x)+20*x)^3\nend";
+            this.FormulaTB.Text = "for i=0:10 %komentarz\n\tx^3+4*x+2\n\t2*x^3+2*sin(log(2,50*x)+20*x)^3\nend\n\n%drugi kom" +
+    "entarz";
             // 
             // FilePanel
             // 
@@ -214,6 +215,42 @@
             this.FilePanel.Name = "FilePanel";
             this.FilePanel.Size = new System.Drawing.Size(562, 544);
             this.FilePanel.TabIndex = 2;
+            // 
+            // filePathBtn
+            // 
+            this.filePathBtn.Location = new System.Drawing.Point(406, 57);
+            this.filePathBtn.Name = "filePathBtn";
+            this.filePathBtn.Size = new System.Drawing.Size(33, 21);
+            this.filePathBtn.TabIndex = 3;
+            this.filePathBtn.Text = "...";
+            this.filePathBtn.UseVisualStyleBackColor = true;
+            this.filePathBtn.Click += new System.EventHandler(this.filePathBtn_Click);
+            // 
+            // filePathTB
+            // 
+            this.filePathTB.Location = new System.Drawing.Point(120, 57);
+            this.filePathTB.Name = "filePathTB";
+            this.filePathTB.Size = new System.Drawing.Size(280, 20);
+            this.filePathTB.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(25, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Ścieżka do pliku:";
+            // 
+            // liczFileBtn
+            // 
+            this.liczFileBtn.Location = new System.Drawing.Point(447, 57);
+            this.liczFileBtn.Name = "liczFileBtn";
+            this.liczFileBtn.Size = new System.Drawing.Size(72, 21);
+            this.liczFileBtn.TabIndex = 0;
+            this.liczFileBtn.Text = "Licz";
+            this.liczFileBtn.UseVisualStyleBackColor = true;
+            this.liczFileBtn.Click += new System.EventHandler(this.liczFileBtn_Click);
             // 
             // outputPanel
             // 
@@ -242,42 +279,6 @@
             this.outputTopPanel.Name = "outputTopPanel";
             this.outputTopPanel.Size = new System.Drawing.Size(562, 18);
             this.outputTopPanel.TabIndex = 5;
-            // 
-            // liczFileBtn
-            // 
-            this.liczFileBtn.Location = new System.Drawing.Point(447, 57);
-            this.liczFileBtn.Name = "liczFileBtn";
-            this.liczFileBtn.Size = new System.Drawing.Size(72, 21);
-            this.liczFileBtn.TabIndex = 0;
-            this.liczFileBtn.Text = "Licz";
-            this.liczFileBtn.UseVisualStyleBackColor = true;
-            this.liczFileBtn.Click += new System.EventHandler(this.liczFileBtn_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(25, 59);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Ścieżka do pliku:";
-            // 
-            // filePathTB
-            // 
-            this.filePathTB.Location = new System.Drawing.Point(120, 57);
-            this.filePathTB.Name = "filePathTB";
-            this.filePathTB.Size = new System.Drawing.Size(280, 20);
-            this.filePathTB.TabIndex = 2;
-            // 
-            // filePathBtn
-            // 
-            this.filePathBtn.Location = new System.Drawing.Point(406, 57);
-            this.filePathBtn.Name = "filePathBtn";
-            this.filePathBtn.Size = new System.Drawing.Size(33, 21);
-            this.filePathBtn.TabIndex = 3;
-            this.filePathBtn.Text = "...";
-            this.filePathBtn.UseVisualStyleBackColor = true;
-            this.filePathBtn.Click += new System.EventHandler(this.filePathBtn_Click);
             // 
             // BasicForm
             // 
