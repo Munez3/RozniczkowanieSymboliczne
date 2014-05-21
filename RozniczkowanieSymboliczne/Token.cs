@@ -23,7 +23,7 @@ namespace RozniczkowanieSymboliczne
     class Token
     {
         public TokenName Nazwa { set; get; }
-        public String Wartosc { set; get; }
+        public string Wartosc { set; get; }
         public int Linia { set; get; }
         public int Znak { set; get; }
 
@@ -33,6 +33,11 @@ namespace RozniczkowanieSymboliczne
             Wartosc = _wartosc;
             Linia = _linia;
             Znak = _znak;
+        }
+
+        public Token Clone()
+        {
+            return new Token(Nazwa,Wartosc,Linia,Znak);
         }
     }
 }

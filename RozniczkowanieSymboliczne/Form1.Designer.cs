@@ -201,8 +201,9 @@
             this.FormulaTB.Name = "FormulaTB";
             this.FormulaTB.Size = new System.Drawing.Size(517, 140);
             this.FormulaTB.TabIndex = 0;
-            this.FormulaTB.Text = "for i=0:10 %komentarz\n\tx^3+4*x+2\n\t2*x^3+2*sin(log(2,50*x)+20*x)^3\nend\n\n%drugi kom" +
-    "entarz";
+            this.FormulaTB.Text = "for i=0:10 %komentarz\n\tx^3+4*x*i+2+i\n                i*x\n\t2*x^3+2*sin(log(2,50*x)" +
+    "+20*x)^3\nend\n\n2*x^3+2*sin(log(2,50*x)+20*x)^3\n2*x^3+2*sin(log(2,50*x)+20*x)^4\n%d" +
+    "rugi komentarz";
             // 
             // FilePanel
             // 

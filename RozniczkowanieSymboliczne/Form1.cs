@@ -44,13 +44,16 @@ namespace RozniczkowanieSymboliczne
                 Skaner skaner = new Skaner(FormulaTB.Text, Mode.Programmer);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                foreach (var token in tokeny)
-                {
-                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
-                }
+                //foreach (var token in tokeny)
+                //{
+                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                //}
                 Parser parser = new Parser(tokeny);
-                parser.Parse();
-                //TODO
+                if (parser.Parse())
+                {
+                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = generatorKodu.WyswietlWyniki();
+                }
             }
             catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
         }
