@@ -52,6 +52,7 @@
             this.outputPanel = new System.Windows.Forms.Panel();
             this.outputFillPanel = new System.Windows.Forms.Panel();
             this.outputTopPanel = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -108,6 +109,7 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // wyrazenieTB
             // 
@@ -160,7 +162,8 @@
             this.OutputTB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OutputTB.Location = new System.Drawing.Point(0, 0);
             this.OutputTB.Name = "OutputTB";
-            this.OutputTB.Size = new System.Drawing.Size(562, 284);
+            this.OutputTB.ReadOnly = true;
+            this.OutputTB.Size = new System.Drawing.Size(562, 248);
             this.OutputTB.TabIndex = 3;
             this.OutputTB.Text = "";
             // 
@@ -202,8 +205,8 @@
             this.FormulaTB.Size = new System.Drawing.Size(517, 140);
             this.FormulaTB.TabIndex = 0;
             this.FormulaTB.Text = "for i=0:10 %komentarz\n\tx^3+4*x*i+2+i\n                i*x\n\t2*x^3+2*sin(log(2,50*x)" +
-    "+20*x)^3\nend\n\n2*x^3+2*sin(log(2,50*x)+20*x)^3\n2*x^3+2*sin(log(2,50*x)+20*x)^4\n%d" +
-    "rugi komentarz";
+                "+20*x)^3\nend\n\n2*x^3+2*sin(log(2,50*x)+20*x)^3\n2*x^3+2*sin(log(2,50*x)+20*x)^4\n%d" +
+                "rugi komentarz";
             // 
             // FilePanel
             // 
@@ -257,6 +260,7 @@
             // 
             this.outputPanel.Controls.Add(this.outputFillPanel);
             this.outputPanel.Controls.Add(this.outputTopPanel);
+            this.outputPanel.Controls.Add(this.panel1);
             this.outputPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.outputPanel.Location = new System.Drawing.Point(0, 242);
             this.outputPanel.Name = "outputPanel";
@@ -269,7 +273,7 @@
             this.outputFillPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.outputFillPanel.Location = new System.Drawing.Point(0, 18);
             this.outputFillPanel.Name = "outputFillPanel";
-            this.outputFillPanel.Size = new System.Drawing.Size(562, 284);
+            this.outputFillPanel.Size = new System.Drawing.Size(562, 248);
             this.outputFillPanel.TabIndex = 6;
             // 
             // outputTopPanel
@@ -280,6 +284,14 @@
             this.outputTopPanel.Name = "outputTopPanel";
             this.outputTopPanel.Size = new System.Drawing.Size(562, 18);
             this.outputTopPanel.TabIndex = 5;
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 266);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(562, 36);
+            this.panel1.TabIndex = 7;
             // 
             // BasicForm
             // 
@@ -337,6 +349,7 @@
         private System.Windows.Forms.Button filePathBtn;
         private System.Windows.Forms.TextBox filePathTB;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 

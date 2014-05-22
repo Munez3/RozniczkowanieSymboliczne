@@ -14,7 +14,10 @@ namespace RozniczkowanieSymboliczne
         public BasicForm()
         {
             InitializeComponent();
+            HelpForm.Visible = false;
         }
+
+        private Form2 HelpForm = new Form2();
 
         private void podstawowyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -94,6 +97,13 @@ namespace RozniczkowanieSymboliczne
         {
             OpenFileDialog file = new OpenFileDialog();
             if (file.ShowDialog() == DialogResult.OK) filePathTB.Text = file.FileName;
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HelpForm.Visible = true;
+            helpToolStripMenuItem.Enabled = false;
+            if (HelpForm.IsDisposed==false) helpToolStripMenuItem.Enabled = true; 
         }
 
     }
