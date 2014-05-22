@@ -46,7 +46,7 @@ namespace RozniczkowanieSymboliczne
 
                 //newline
                 if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
-                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Po begin umieszczaj nową linię!");
+                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Po for umieszczaj nową linię!");
 
                 //end
                 while (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa != TokenName.endSem) sprawdz_linie();

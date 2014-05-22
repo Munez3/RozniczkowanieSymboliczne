@@ -49,10 +49,14 @@ namespace RozniczkowanieSymboliczne
                     double poczatek = 0, koniec = 0, precyzja = 1;
 
                     zmienna = tokeny[actualTokenIndex].Wartosc; actualTokenIndex += 2;
-                    poczatek = double.Parse(tokeny[actualTokenIndex].Wartosc); actualTokenIndex += 2;
-                    koniec = double.Parse(tokeny[actualTokenIndex].Wartosc); actualTokenIndex += 2;
+                    poczatek = zwrocDoubleZTokenu(tokeny[actualTokenIndex]); actualTokenIndex += 2;
+                    koniec = zwrocDoubleZTokenu(tokeny[actualTokenIndex]); actualTokenIndex++;
                     if (tokeny[actualTokenIndex].Nazwa == TokenName.dwukropek)
-                        precyzja = double.Parse(tokeny[actualTokenIndex].Wartosc); actualTokenIndex += 2;
+                    {
+                        actualTokenIndex++;
+                        precyzja = zwrocDoubleZTokenu(tokeny[actualTokenIndex]); 
+                        actualTokenIndex++; 
+                    }
 
                     List<List<Token>> lista = new List<List<Token>>();
 
@@ -75,7 +79,7 @@ namespace RozniczkowanieSymboliczne
                         {
                             List<Token> tempList = new List<Token>();
                             foreach (var token in item)
-                                if (token.Nazwa == TokenName.ident && token.Wartosc == zmienna) tempList.Add(new Token(TokenName.liczba, i+"",token.Linia,token.Znak));
+                                if (token.Nazwa == TokenName.ident && token.Wartosc == zmienna) tempList.Add(new Token(TokenName.liczba, doubleToString(i)+"",token.Linia,token.Znak));
                                 else tempList.Add(token.Clone());
                             wyrazenia.Add(tempList);
                         }
@@ -121,6 +125,41 @@ namespace RozniczkowanieSymboliczne
             foreach (var token in tokeny)
                 temp += token.Wartosc;
             return temp;
+        }
+
+        /// <summary>
+        /// Zwraca double z tokenu będącego liczbą
+        /// </summary>
+        /// <param name="token">token</param>
+        /// <returns>double</returns>
+        private double zwrocDoubleZTokenu(Token token)
+        {
+            if (token.Nazwa == TokenName.liczba)
+            {
+                string temp = "";
+                for (int i = 0; i < token.Wartosc.Length; i++)
+                    if (token.Wartosc[i] == '.') temp += ',';
+                    else temp += token.Wartosc[i];
+
+                return double.Parse(temp);
+            }
+            else throw new Exception("Nie można zwrócić double z tokenu niebędącego liczbą. Znaleziony token: "+token.Nazwa.ToString());
+        }
+
+        /// <summary>
+        /// Zamiana doubla na string z '.' zamiast ','
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        private string doubleToString(double liczba)
+        {
+            string temp = liczba + "";
+            string wynik = "";
+            for (int i = 0; i < temp.Length; i++)
+                if (temp[i] == ',') wynik += '.';
+                else wynik += temp[i];
+
+            return wynik;
         }
     }
 }
