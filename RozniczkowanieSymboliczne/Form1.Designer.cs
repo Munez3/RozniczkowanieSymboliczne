@@ -53,6 +53,8 @@
             this.outputFillPanel = new System.Windows.Forms.Panel();
             this.outputTopPanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ClearButton = new System.Windows.Forms.Button();
+            this.WriteButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -60,6 +62,7 @@
             this.outputPanel.SuspendLayout();
             this.outputFillPanel.SuspendLayout();
             this.outputTopPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -287,11 +290,33 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.WriteButton);
+            this.panel1.Controls.Add(this.ClearButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 266);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(562, 36);
             this.panel1.TabIndex = 7;
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(6, 6);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearButton.TabIndex = 0;
+            this.ClearButton.Text = "Wyczyść";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
+            // 
+            // WriteButton
+            // 
+            this.WriteButton.Location = new System.Drawing.Point(475, 5);
+            this.WriteButton.Name = "WriteButton";
+            this.WriteButton.Size = new System.Drawing.Size(75, 23);
+            this.WriteButton.TabIndex = 1;
+            this.WriteButton.Text = "Zapisz";
+            this.WriteButton.UseVisualStyleBackColor = true;
+            this.WriteButton.Click += new System.EventHandler(this.WriteButton_Click);
             // 
             // BasicForm
             // 
@@ -318,6 +343,7 @@
             this.outputFillPanel.ResumeLayout(false);
             this.outputTopPanel.ResumeLayout(false);
             this.outputTopPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,6 +376,8 @@
         private System.Windows.Forms.TextBox filePathTB;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Button WriteButton;
     }
 }
 

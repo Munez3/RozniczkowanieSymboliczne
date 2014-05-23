@@ -68,9 +68,15 @@ namespace RozniczkowanieSymboliczne
                 Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                foreach (var token in tokeny)
+                //foreach (var token in tokeny)
+                //{
+                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                //}
+                Parser parser = new Parser(tokeny);
+                if (parser.Parse())
                 {
-                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
                 //TODO
             }
@@ -84,9 +90,15 @@ namespace RozniczkowanieSymboliczne
                 Skaner skaner = new Skaner(filePathTB.Text, Mode.File);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                foreach (var token in tokeny)
+                //foreach (var token in tokeny)
+                //{
+                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                //
+                Parser parser = new Parser(tokeny);
+                if (parser.Parse())
                 {
-                    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
+                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
                 //TODO
             }
@@ -104,6 +116,25 @@ namespace RozniczkowanieSymboliczne
             HelpForm.Visible = true;
             helpToolStripMenuItem.Enabled = false;
             if (HelpForm.IsDisposed==false) helpToolStripMenuItem.Enabled = true; 
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            OutputTB.Clear();
+        }
+
+        private void WriteButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sFile = new SaveFileDialog();
+            sFile.Filter = "Normal Text File (*.txt)|*.txt";
+            sFile.Title = "Save result";
+            if (sFile.ShowDialog() == DialogResult.OK)
+            {
+                if (sFile.FileName != "")
+                {
+                    System.IO.File.WriteAllLines(sFile.FileName, OutputTB.Lines);
+                }
+            }
         }
 
     }

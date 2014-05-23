@@ -29,17 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Podstawowe działania");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Trygonometryczne");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("exp");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("log");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
-            treeNode8,
-            treeNode9,
-            treeNode10});
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("ApplicationHelp", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode11});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Trygonometryczne");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("exp");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("log");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Podstawowe działania");
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
@@ -67,24 +64,24 @@
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(18, 25);
+            this.treeView1.Location = new System.Drawing.Point(3, 3);
             this.treeView1.Name = "treeView1";
-            treeNode7.Name = "SimpleMethods";
-            treeNode7.Text = "Podstawowe działania";
-            treeNode8.Name = "Trygonometryczne";
-            treeNode8.Text = "Trygonometryczne";
-            treeNode9.Name = "exp";
-            treeNode9.Text = "exp";
-            treeNode10.Name = "logarytm";
-            treeNode10.Text = "log";
-            treeNode11.Name = "Funkcje";
-            treeNode11.Text = "Funkcje";
-            treeNode12.Name = "ApplicationHelp";
-            treeNode12.Text = "ApplicationHelp";
+            treeNode1.Name = "Trygonometryczne";
+            treeNode1.Text = "Trygonometryczne";
+            treeNode2.Name = "exp";
+            treeNode2.Text = "exp";
+            treeNode3.Name = "logarytm";
+            treeNode3.Text = "log";
+            treeNode4.Name = "Funkcje";
+            treeNode4.Text = "Funkcje";
+            treeNode5.Name = "SimpleMethods";
+            treeNode5.Text = "Podstawowe działania";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode12});
-            this.treeView1.Size = new System.Drawing.Size(160, 395);
+            treeNode4,
+            treeNode5});
+            this.treeView1.Size = new System.Drawing.Size(193, 436);
             this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // webBrowser1
             // 
