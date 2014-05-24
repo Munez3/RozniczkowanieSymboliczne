@@ -133,10 +133,10 @@ namespace RozniczkowanieSymboliczne
         public static Element wygenerujElement(List<Token> tokeny)
         {
             if (tokeny.Count == 0 || (tokeny.Count == 1 && tokeny[0].Nazwa == TokenName.nowaLinia)) return null;
-            int control = -1; //0 - Podstawowy, 1-6 - funkcje, 7-nawias, 8 - potega, 9-mnozenie, 10 - dzielenie, 11-dodawanie
+            int control = -1; //0 - Podstawowy, 1-7 - funkcje, 20-nawias, 21 - potega, 22-mnozenie, 23 - dzielenie, 24-dodawanie
             if (tokeny[0].Nazwa == TokenName.opMinus) return new Elem_Plus(tokeny);
             int actualTokenIndex = 0, tokenyLength = tokeny.Count;
-            while (actualTokenIndex < tokenyLength && control < 11)
+            while (actualTokenIndex < tokenyLength && control < 24)
             {
                 if (tokeny[actualTokenIndex].Nazwa == TokenName.ident || tokeny[actualTokenIndex].Nazwa == TokenName.liczba)
                 {
@@ -145,28 +145,28 @@ namespace RozniczkowanieSymboliczne
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPlus || tokeny[actualTokenIndex].Nazwa == TokenName.opMinus)
                 {
-                    control = (control < 11) ? 11 : control;
+                    control = (control < 24) ? 24 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opDzielenie)
                 {
-                    control = (control < 10) ? 10 : control;
+                    control = (control < 23) ? 23 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opMnozenie)
                 {
-                    control = (control < 9 || control == 10) ? 9 : control;
+                    control = (control < 22 || control == 23) ? 22 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPotega)
                 {
-                    control = (control < 8) ? 8 : control;
+                    control = (control < 21) ? 21 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias)
                 {
                     actualTokenIndex++;
-                    control = (control < 7) ? 7 : control;
+                    control = (control < 20) ? 20 : control;
                     int liczbaNawiasow = 1;
                     while (liczbaNawiasow != 0)
                     {
@@ -247,6 +247,18 @@ namespace RozniczkowanieSymboliczne
                         actualTokenIndex++;
                     }
                 }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.sqrtFun)
+                {
+                    control = (control < 7) ? 7 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
                 else actualTokenIndex++;
             }
 
@@ -257,11 +269,12 @@ namespace RozniczkowanieSymboliczne
             if (control == 4) return new Elem_Cotangens(tokeny);
             if (control == 5) return new Elem_Logarytm(tokeny);
             if (control == 6) return new Elem_Exponenta(tokeny);
-            if (control == 7) return new Elem_Nawias(tokeny);
-            if (control == 8) return new Elem_Potega(tokeny);
-            if (control == 9) return new Elem_Razy(tokeny);
-            if (control == 10) return new Elem_Dzielenie(tokeny);
-            if (control == 11) return new Elem_Plus(tokeny);
+            if (control == 7) return new Elem_Pierwiastek(tokeny);
+            if (control == 20) return new Elem_Nawias(tokeny);
+            if (control == 21) return new Elem_Potega(tokeny);
+            if (control == 22) return new Elem_Razy(tokeny);
+            if (control == 23) return new Elem_Dzielenie(tokeny);
+            if (control == 24) return new Elem_Plus(tokeny);
             return null;
         }
 

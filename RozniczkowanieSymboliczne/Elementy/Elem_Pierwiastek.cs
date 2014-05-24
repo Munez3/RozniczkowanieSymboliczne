@@ -5,14 +5,14 @@ using System.Text;
 
 namespace RozniczkowanieSymboliczne
 {
-    class Elem_Tangens : Element
+    class Elem_Pierwiastek : Element
     {
         public List<Element> Dzieci { set; get; }
         public List<Token> Tokeny { set; get; }
         public string Wyrazenie { set; get; }
         public string Pochodna { set; get; }
 
-        public Elem_Tangens(List<Token> _tokeny)
+        public Elem_Pierwiastek(List<Token> _tokeny)
         {
             Tokeny = _tokeny;
             Wyrazenie = GeneratorKodu.stworzStringZTokenów(Tokeny);
@@ -38,10 +38,10 @@ namespace RozniczkowanieSymboliczne
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
             Dzieci[0].WyliczPochodna(identPoKtorymPochodniujemy);
-            Pochodna += "(1+tg(";
+            Pochodna += "(1/2*sqrt(";
             if (Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Dzieci[0].Wyrazenie;
             else Pochodna += Dzieci[0].Wyrazenie;
-            Pochodna += ")^2)*";
+            Pochodna += "))*";
             if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Pochodna;
             else Pochodna += "(" + Dzieci[0].Pochodna + ")";
         }

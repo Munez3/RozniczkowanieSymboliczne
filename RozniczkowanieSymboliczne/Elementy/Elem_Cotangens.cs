@@ -38,7 +38,12 @@ namespace RozniczkowanieSymboliczne
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
             Dzieci[0].WyliczPochodna(identPoKtorymPochodniujemy);
-            //TODO
+            Pochodna += "(-(1+ctg(";
+            if (Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Dzieci[0].Wyrazenie;
+            else Pochodna += Dzieci[0].Wyrazenie;
+            Pochodna += ")^2))*";
+            if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Pochodna;
+            else Pochodna += "(" + Dzieci[0].Pochodna + ")";
         }
     }
 }

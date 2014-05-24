@@ -12,7 +12,7 @@ namespace RozniczkowanieSymboliczne
     { 
         opMinus, opPlus, opMnozenie, opDzielenie, opPotega, 
         przecinek, Lnawias, Pnawias, hash,
-        sinFun, cosFun, tgFun, ctgFun, logFun, expFun,
+        sinFun, cosFun, tgFun, ctgFun, logFun, expFun, sqrtFun,
         ident, liczba, 
         forSem, endSem, dwukropek, opRowne, nowaLinia
     }; 

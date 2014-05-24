@@ -52,9 +52,9 @@ namespace RozniczkowanieSymboliczne
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
             foreach (var dziecko in Dzieci)
-            {
                 dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
+
+            Pochodna += "(" + Wyrazenie + ")*(" + Dzieci[1].Pochodna + "*log(e," + Dzieci[0].Wyrazenie + ")+" + Dzieci[1].Wyrazenie + "*(" + Dzieci[0].Pochodna + "/" + Dzieci[0].Wyrazenie + "))";
         }
     }
 }

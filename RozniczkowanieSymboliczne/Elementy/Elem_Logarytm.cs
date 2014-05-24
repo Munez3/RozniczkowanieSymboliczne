@@ -54,11 +54,15 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
-            foreach (var dziecko in Dzieci)
-            {
-                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
-            //TODO
+            Dzieci[0].Pochodna = "0";
+            Dzieci[1].WyliczPochodna(identPoKtorymPochodniujemy);
+
+            Pochodna += "(1/(";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy)) Pochodna += Dzieci[1].Wyrazenie;
+            else Pochodna += "("+Dzieci[1].Wyrazenie+")";
+            Pochodna += "*log("+Dzieci[0].Wyrazenie+")))*";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
+            else Pochodna += "(" + Dzieci[1].Pochodna + ")";
         }
     }
 }

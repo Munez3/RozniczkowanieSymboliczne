@@ -123,7 +123,7 @@ namespace RozniczkowanieSymboliczne
                             }
                         }
 
-                        //nawias po nazwie
+                        //niema więcej liter po tym słowie
                         if (actualTokenIndex + 3 == textToParse.Length || !Char.IsLetter(textToParse[actualTokenIndex+3]))
                         {
                             //sin
@@ -158,6 +158,19 @@ namespace RozniczkowanieSymboliczne
                                 return new Token(TokenName.expFun, "exp", linia, znak);
                             }
                         }                        
+                    }
+
+                    //sqrt
+                    if (actualTokenIndex + 3 < textToParse.Length)
+                    {
+                        if (actualTokenIndex + 4 == textToParse.Length || !Char.IsLetter(textToParse[actualTokenIndex + 4]))
+                        {
+                            if (textToParse.Substring(actualTokenIndex, 4).Equals("sqrt"))
+                            {
+                                actualTokenIndex += 4; znak += 4;
+                                return new Token(TokenName.sqrtFun, "sqrt", linia, znak);
+                            }
+                        }
                     }
 
                     //ident

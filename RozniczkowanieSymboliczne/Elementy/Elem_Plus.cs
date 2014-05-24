@@ -26,6 +26,7 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void rozbijNaDzieci()
         {
+            //TODO Naprawa nawiasów!
             Dzieci = new List<Element>();
             int actualTokenIndex = 0, tokenyLength = Tokeny.Count;
             List<Token> dziecko = new List<Token>();

@@ -68,17 +68,13 @@ namespace RozniczkowanieSymboliczne
                 Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                //foreach (var token in tokeny)
-                //{
-                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
-                //}
+
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
                     GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
-                //TODO
             //}
             //catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
