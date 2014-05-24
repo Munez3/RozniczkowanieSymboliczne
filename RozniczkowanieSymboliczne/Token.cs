@@ -20,7 +20,7 @@ namespace RozniczkowanieSymboliczne
     /// <summary>
     /// Struktura tokenu
     /// </summary>
-    class Token
+    class Token : ICloneable
     {
         public TokenName Nazwa { set; get; }
         public string Wartosc { set; get; }
@@ -35,7 +35,7 @@ namespace RozniczkowanieSymboliczne
             Znak = _znak;
         }
 
-        public Token Clone()
+        public object Clone()
         {
             return new Token(Nazwa,Wartosc,Linia,Znak);
         }

@@ -46,6 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Element.cs" />
+    <Compile Include="Elementy\Elem_Podstawowy.cs" />
+    <Compile Include="Elementy\Elem_Exponenta.cs" />
+    <Compile Include="Elementy\Elem_Logarytm.cs" />
+    <Compile Include="Elementy\Elem_Cotangens.cs" />
+    <Compile Include="Elementy\Elem_Tangens.cs" />
+    <Compile Include="Elementy\Elem_Cosinus.cs" />
+    <Compile Include="Elementy\Elem_Sinus.cs" />
+    <Compile Include="Elementy\Elem_Nawias.cs" />
+    <Compile Include="Elementy\Elem_Potega.cs" />
+    <Compile Include="Elementy\Elem_Razy.cs" />
+    <Compile Include="Elementy\Elem_Plus.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

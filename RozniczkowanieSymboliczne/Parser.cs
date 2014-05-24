@@ -132,7 +132,7 @@ namespace RozniczkowanieSymboliczne
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.sinFun ||
                         tokeny[actualTokenIndex].Nazwa == TokenName.cosFun ||
                         tokeny[actualTokenIndex].Nazwa == TokenName.tgFun ||
-                        tokeny[actualTokenIndex].Nazwa == TokenName.cosFun ||
+                        tokeny[actualTokenIndex].Nazwa == TokenName.ctgFun ||
                         tokeny[actualTokenIndex].Nazwa == TokenName.expFun) sprawdz_jednoargumentowe();
                 else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Powinien wystąpić czynnik, a jest: "+tokeny[actualTokenIndex].Wartosc+"!");
             }

@@ -124,7 +124,7 @@ namespace RozniczkowanieSymboliczne
                         }
 
                         //nawias po nazwie
-                        if (actualTokenIndex + 3 == textToParse.Length || textToParse[actualTokenIndex + 3] == '(')
+                        if (actualTokenIndex + 3 == textToParse.Length || !Char.IsLetter(textToParse[actualTokenIndex+3]))
                         {
                             //sin
                             if (textToParse.Substring(actualTokenIndex, 3).Equals("sin"))

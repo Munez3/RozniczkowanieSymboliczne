@@ -63,8 +63,8 @@ namespace RozniczkowanieSymboliczne
 
         private void liczProsteBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
@@ -79,8 +79,8 @@ namespace RozniczkowanieSymboliczne
                     OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
                 //TODO
-            }
-            catch (Exception ex) { OutputTB.Text = ex.Message; }
+            //}
+            //catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
 
         private void liczFileBtn_Click(object sender, EventArgs e)

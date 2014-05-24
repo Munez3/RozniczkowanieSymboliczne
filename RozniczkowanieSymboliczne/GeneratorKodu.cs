@@ -65,7 +65,7 @@ namespace RozniczkowanieSymboliczne
                         List<Token> temp = new List<Token>();
                         while (tokeny[actualTokenIndex].Nazwa != TokenName.nowaLinia)
                         {
-                            temp.Add(tokeny[actualTokenIndex].Clone());
+                            temp.Add((Token)tokeny[actualTokenIndex].Clone());
                             actualTokenIndex++;
                         }
                         actualTokenIndex++;
@@ -80,7 +80,7 @@ namespace RozniczkowanieSymboliczne
                             List<Token> tempList = new List<Token>();
                             foreach (var token in item)
                                 if (token.Nazwa == TokenName.ident && token.Wartosc == zmienna) tempList.Add(new Token(TokenName.liczba, doubleToString(i)+"",token.Linia,token.Znak));
-                                else tempList.Add(token.Clone());
+                                else tempList.Add((Token)token.Clone());
                             wyrazenia.Add(tempList);
                         }
                     }
@@ -106,12 +106,157 @@ namespace RozniczkowanieSymboliczne
         /// <param name="tokeny">tokeny wyrażenia</param>
         private void zpochodniujWyrażenie(List<Token> tokeny)
         {
-            //TODO
-            
-            //TEST
-                string temp = stworzStringZTokenów(tokeny);
-                if(!temp.Equals("")) wyniki.Add(temp);
-            //TEST
+            Element mainElement;
+            string identPoKtorymPochodniujemy = "x";
+            if (tokeny.Count >= 2 && tokeny[0].Nazwa == TokenName.hash)
+            {
+                identPoKtorymPochodniujemy = tokeny[1].Wartosc;
+                List<Token> tempTokeny = new List<Token>();
+                for (int i = 2; i < tokeny.Count; i++)
+                    tempTokeny.Add(tokeny[i]);
+                mainElement = wygenerujElement(tempTokeny);
+            }
+            else mainElement = wygenerujElement(tokeny);
+
+            if (mainElement != null)
+            {
+                mainElement.WyliczPochodna(identPoKtorymPochodniujemy);
+                wyniki.Add(mainElement.Pochodna); //TODO to test .Wyrazenie
+            }
+        }
+
+        /// <summary>
+        /// Zwraca Element odpowiedniego rodzaju na podstawie tokenów
+        /// </summary>
+        /// <param name="tokeny"></param>
+        /// <returns></returns>
+        public static Element wygenerujElement(List<Token> tokeny)
+        {
+            if (tokeny.Count == 0 || (tokeny.Count == 1 && tokeny[0].Nazwa == TokenName.nowaLinia)) return null;
+            int control = -1; //0 - Podstawowy, 1-6 - funkcje, 7-nawias, 8 - potega, 9-mnozenie, 10-dodawanie
+            if (tokeny[0].Nazwa == TokenName.opMinus) return new Elem_Plus(tokeny);
+            int actualTokenIndex = 0, tokenyLength = tokeny.Count;
+            while (actualTokenIndex < tokenyLength && control < 10)
+            {
+                if (tokeny[actualTokenIndex].Nazwa == TokenName.ident || tokeny[actualTokenIndex].Nazwa == TokenName.liczba)
+                {
+                    control = (control < 0) ? 0 : control;
+                    actualTokenIndex++;
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPlus)
+                {
+                    control = (control < 10) ? 10 : control;
+                    actualTokenIndex++;
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opMnozenie)
+                {
+                    control = (control < 9) ? 9 : control;
+                    actualTokenIndex++;
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPotega)
+                {
+                    control = (control < 8) ? 8 : control;
+                    actualTokenIndex++;
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias)
+                {
+                    actualTokenIndex++;
+                    control = (control < 7) ? 7 : control;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.sinFun)
+                {
+                    control = (control < 1) ? 1 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.cosFun)
+                {
+                    control = (control < 2) ? 2 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.tgFun)
+                {
+                    control = (control < 3) ? 3 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.ctgFun)
+                {
+                    control = (control < 4) ? 4 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.logFun)
+                {
+                    control = (control < 5) ? 5 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.expFun)
+                {
+                    control = (control < 6) ? 6 : control;
+                    actualTokenIndex += 2;
+                    int liczbaNawiasow = 1;
+                    while (liczbaNawiasow != 0)
+                    {
+                        if (tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) liczbaNawiasow--;
+                        else if (tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) liczbaNawiasow++;
+                        actualTokenIndex++;
+                    }
+                }
+                else actualTokenIndex++;
+            }
+
+            if (control == 0) return new Elem_Podstawowy(tokeny);
+            if (control == 1) return new Elem_Sinus(tokeny);
+            if (control == 2) return new Elem_Cosinus(tokeny);
+            if (control == 3) return new Elem_Tangens(tokeny);
+            if (control == 4) return new Elem_Cotangens(tokeny);
+            if (control == 5) return new Elem_Logarytm(tokeny);
+            if (control == 6) return new Elem_Exponenta(tokeny);
+            if (control == 7) return new Elem_Nawias(tokeny);
+            if (control == 8) return new Elem_Potega(tokeny);
+            if (control == 9) return new Elem_Razy(tokeny);
+            if (control == 10) return new Elem_Plus(tokeny);
+            return null;
         }
 
         /// <summary>
@@ -119,7 +264,7 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         /// <param name="tokeny">Lista tokenów</param>
         /// <returns>string reprezentujący wyrażenie</returns>
-        private string stworzStringZTokenów(List<Token> tokeny)
+        public static string stworzStringZTokenów(List<Token> tokeny)
         {
             string temp = "";
             foreach (var token in tokeny)
@@ -132,7 +277,7 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         /// <param name="token">token</param>
         /// <returns>double</returns>
-        private double zwrocDoubleZTokenu(Token token)
+        public static double zwrocDoubleZTokenu(Token token)
         {
             if (token.Nazwa == TokenName.liczba)
             {
@@ -151,7 +296,7 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        private string doubleToString(double liczba)
+        public static string doubleToString(double liczba)
         {
             string temp = liczba + "";
             string wynik = "";
