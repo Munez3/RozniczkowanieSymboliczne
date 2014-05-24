@@ -64,8 +64,24 @@ namespace RozniczkowanieSymboliczne
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
             foreach (Element dziecko in Dzieci)
-            {
                 dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
+
+            int actualKid = 0, actualOperator = 0, dzieciLength = Dzieci.Count, operatoryLength = operatory.Count;
+            if (operatoryLength == dzieciLength) 
+            {
+                Pochodna += operatory[0];
+                actualOperator++;
+            }
+            
+            while(actualKid < dzieciLength)
+            {
+                Pochodna += Dzieci[actualKid].Pochodna;
+                if (actualOperator < operatory.Count)
+                {
+                    Pochodna += operatory[actualOperator];
+                    actualOperator++;
+                }
+                actualKid++;
             }
         }
     }

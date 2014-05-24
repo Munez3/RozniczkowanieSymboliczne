@@ -37,10 +37,8 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
-            foreach (var dziecko in Dzieci)
-            {
-                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
+            Dzieci[0].WyliczPochodna(identPoKtorymPochodniujemy);
+            //TODO
         }
     }
 }

@@ -37,10 +37,13 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
-            foreach (var dziecko in Dzieci)
-            {
-                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
+            Dzieci[0].WyliczPochodna(identPoKtorymPochodniujemy);
+            Pochodna += "cos(";
+            if (Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Dzieci[0].Wyrazenie;
+            else Pochodna += Dzieci[0].Wyrazenie;
+            Pochodna += ")*";
+            if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Pochodna;
+            else Pochodna +="(" + Dzieci[0].Pochodna + ")";
         }
     }
 }

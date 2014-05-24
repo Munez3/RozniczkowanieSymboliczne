@@ -58,6 +58,7 @@ namespace RozniczkowanieSymboliczne
             {
                 dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
             }
+            //TODO
         }
     }
 }

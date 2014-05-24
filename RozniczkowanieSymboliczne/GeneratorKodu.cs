@@ -121,7 +121,7 @@ namespace RozniczkowanieSymboliczne
             if (mainElement != null)
             {
                 mainElement.WyliczPochodna(identPoKtorymPochodniujemy);
-                wyniki.Add(mainElement.Pochodna); //TODO to test .Wyrazenie
+                wyniki.Add(mainElement.Pochodna);
             }
         }
 
@@ -133,24 +133,29 @@ namespace RozniczkowanieSymboliczne
         public static Element wygenerujElement(List<Token> tokeny)
         {
             if (tokeny.Count == 0 || (tokeny.Count == 1 && tokeny[0].Nazwa == TokenName.nowaLinia)) return null;
-            int control = -1; //0 - Podstawowy, 1-6 - funkcje, 7-nawias, 8 - potega, 9-mnozenie, 10-dodawanie
+            int control = -1; //0 - Podstawowy, 1-6 - funkcje, 7-nawias, 8 - potega, 9-mnozenie, 10 - dzielenie, 11-dodawanie
             if (tokeny[0].Nazwa == TokenName.opMinus) return new Elem_Plus(tokeny);
             int actualTokenIndex = 0, tokenyLength = tokeny.Count;
-            while (actualTokenIndex < tokenyLength && control < 10)
+            while (actualTokenIndex < tokenyLength && control < 11)
             {
                 if (tokeny[actualTokenIndex].Nazwa == TokenName.ident || tokeny[actualTokenIndex].Nazwa == TokenName.liczba)
                 {
                     control = (control < 0) ? 0 : control;
                     actualTokenIndex++;
                 }
-                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPlus)
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPlus || tokeny[actualTokenIndex].Nazwa == TokenName.opMinus)
+                {
+                    control = (control < 11) ? 11 : control;
+                    actualTokenIndex++;
+                }
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.opDzielenie)
                 {
                     control = (control < 10) ? 10 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opMnozenie)
                 {
-                    control = (control < 9) ? 9 : control;
+                    control = (control < 9 || control == 10) ? 9 : control;
                     actualTokenIndex++;
                 }
                 else if (tokeny[actualTokenIndex].Nazwa == TokenName.opPotega)
@@ -255,7 +260,8 @@ namespace RozniczkowanieSymboliczne
             if (control == 7) return new Elem_Nawias(tokeny);
             if (control == 8) return new Elem_Potega(tokeny);
             if (control == 9) return new Elem_Razy(tokeny);
-            if (control == 10) return new Elem_Plus(tokeny);
+            if (control == 10) return new Elem_Dzielenie(tokeny);
+            if (control == 11) return new Elem_Plus(tokeny);
             return null;
         }
 

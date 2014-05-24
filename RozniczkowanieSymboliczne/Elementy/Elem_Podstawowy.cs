@@ -25,7 +25,6 @@ namespace RozniczkowanieSymboliczne
         public void rozbijNaDzieci()
         {
             Dzieci = new List<Element>();
-            //TODO
         }
 
         /// <summary>
@@ -33,10 +32,8 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
-            foreach (var dziecko in Dzieci)
-            {
-                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
+            if (Tokeny[0].Nazwa == TokenName.ident && Tokeny[0].Wartosc.Equals(identPoKtorymPochodniujemy)) Pochodna = "1";
+            else Pochodna = "0";
         }
     }
 }

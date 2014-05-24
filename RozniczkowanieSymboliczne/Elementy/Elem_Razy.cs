@@ -27,35 +27,28 @@ namespace RozniczkowanieSymboliczne
         public void rozbijNaDzieci()
         {
             Dzieci = new List<Element>();
-            int actualTokenIndex = 0, tokenyLength = Tokeny.Count;
+            int actualTokenIndex = Tokeny.Count - 1;
             List<Token> dziecko = new List<Token>();
-            while (actualTokenIndex < tokenyLength)
+            int ileNawiasow = 0;
+            while (Tokeny[actualTokenIndex].Nazwa != TokenName.opMnozenie || ileNawiasow != 0)
             {
-                if (Tokeny[actualTokenIndex].Nazwa == TokenName.opMnozenie || Tokeny[actualTokenIndex].Nazwa == TokenName.opDzielenie)
-                {
-                    if (Tokeny[actualTokenIndex].Nazwa == TokenName.opMnozenie) operatory.Add("*");
-                    else operatory.Add("/");
-                    if (dziecko.Count != 0) Dzieci.Add(GeneratorKodu.wygenerujElement(dziecko));
-                    dziecko = new List<Token>();
-                    actualTokenIndex++;
-                }
-                else if (Tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias)
-                {
-                    while (Tokeny[actualTokenIndex].Nazwa != TokenName.Pnawias)
-                    {
-                        dziecko.Add(Tokeny[actualTokenIndex]);
-                        actualTokenIndex++;
-                    }
-                    dziecko.Add(Tokeny[actualTokenIndex]);
-                    actualTokenIndex++;
-                }
-                else
-                {
-                    dziecko.Add(Tokeny[actualTokenIndex]);
-                    actualTokenIndex++;
-                }
+                if (Tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) ileNawiasow--;
+                else if (Tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) ileNawiasow++;
+                dziecko.Add(Tokeny[actualTokenIndex]);
+                actualTokenIndex--;
             }
+            actualTokenIndex--;
+            dziecko.Reverse();
             Dzieci.Add(GeneratorKodu.wygenerujElement(dziecko));
+            dziecko = new List<Token>();
+            while (actualTokenIndex >= 0)
+            {
+                dziecko.Add(Tokeny[actualTokenIndex]);
+                actualTokenIndex--;
+            }
+            dziecko.Reverse();
+            Dzieci.Add(GeneratorKodu.wygenerujElement(dziecko));
+            Dzieci.Reverse();
         }
 
         /// <summary>
@@ -64,9 +57,9 @@ namespace RozniczkowanieSymboliczne
         public void WyliczPochodna(string identPoKtorymPochodniujemy)
         {
             foreach (var dziecko in Dzieci)
-            {
-                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
-            }
+               dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
+
+            Pochodna += Dzieci[0].Wyrazenie + "*" + Dzieci[1].Pochodna +"+"+ Dzieci[0].Pochodna + "*" + Dzieci[1].Wyrazenie;
         }
     }
 }
