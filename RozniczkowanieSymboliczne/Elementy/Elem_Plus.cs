@@ -26,7 +26,6 @@ namespace RozniczkowanieSymboliczne
         /// </summary>
         public void rozbijNaDzieci()
         {
-            //TODO Naprawa nawiasów!
             Dzieci = new List<Element>();
             int actualTokenIndex = 0, tokenyLength = Tokeny.Count;
             List<Token> dziecko = new List<Token>();
@@ -42,13 +41,16 @@ namespace RozniczkowanieSymboliczne
                 }
                 else if (Tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias)
                 {
-                    while (Tokeny[actualTokenIndex].Nazwa != TokenName.Pnawias)
+                    int iloscNawiasow = 1;
+                    dziecko.Add(Tokeny[actualTokenIndex]);
+                    actualTokenIndex++;
+                    while (iloscNawiasow != 0)
                     {
+                        if (Tokeny[actualTokenIndex].Nazwa == TokenName.Pnawias) iloscNawiasow--;
+                        else if (Tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) iloscNawiasow++;
                         dziecko.Add(Tokeny[actualTokenIndex]);
                         actualTokenIndex++;
                     }
-                    dziecko.Add(Tokeny[actualTokenIndex]);
-                    actualTokenIndex++;
                 }
                 else
                 {
