@@ -105,6 +105,7 @@ namespace RozniczkowanieSymboliczne
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            HelpForm.treeView1.SelectedNode = HelpForm.treeView1.Nodes[0];
             HelpForm.Visible = true;
             helpToolStripMenuItem.Enabled = false;
             if (HelpForm.IsDisposed==false) helpToolStripMenuItem.Enabled = true; 

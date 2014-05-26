@@ -18,7 +18,11 @@ namespace RozniczkowanieSymboliczne
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.Text == "exp")
+            if (e.Node.Text == "Application")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/Index.html"));
+            }
+            else if (e.Node.Text == "exp")
             {
                 webBrowser1.Navigate(new Uri(Application.StartupPath+"\\helpFunction/exp.html"));
             }
@@ -29,6 +33,18 @@ namespace RozniczkowanieSymboliczne
             else if (e.Node.Text == "Trygonometryczne")
             {
                 webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/tryg.html"));
+            }
+            else if (e.Node.Text == "Podstawowe działania")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/simple.html"));
+            }
+            else if (e.Node.Text == "sqrt")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/sqrt.html"));
+            }
+            else if (e.Node.Text == "pętla for")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/forLoop.html"));
             }
         }
     }
