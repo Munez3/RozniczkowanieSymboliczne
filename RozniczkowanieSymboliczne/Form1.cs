@@ -42,8 +42,8 @@ namespace RozniczkowanieSymboliczne
 
         private void liczProgramBtn_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 Skaner skaner = new Skaner(FormulaTB.Text, Mode.Programmer);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
@@ -57,8 +57,8 @@ namespace RozniczkowanieSymboliczne
                     GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
-            }
-            catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
+            //}
+            //catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
         }
 
         private void liczProsteBtn_Click(object sender, EventArgs e)
@@ -86,17 +86,13 @@ namespace RozniczkowanieSymboliczne
                 Skaner skaner = new Skaner(filePathTB.Text, Mode.File);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                //foreach (var token in tokeny)
-                //{
-                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
-                //
+
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
                     GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = generatorKodu.WyswietlWyniki();
                 }
-                //TODO
             }
             catch (Exception ex) { OutputTB.Text = ex.Message; }
         }

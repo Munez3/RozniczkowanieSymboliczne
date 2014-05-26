@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Element.cs" />
+    <Compile Include="Cleaner.cs" />
     <Compile Include="Elementy\Elem_Pierwiastek.cs" />
     <Compile Include="Elementy\Elem_Dzielenie.cs" />
     <Compile Include="Elementy\Elem_Podstawowy.cs" />

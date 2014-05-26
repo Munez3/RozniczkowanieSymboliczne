@@ -16,9 +16,13 @@ namespace RozniczkowanieSymboliczne
 
         public Elem_Plus(List<Token> _tokeny)
         {
-            Tokeny = _tokeny;
-            Wyrazenie = GeneratorKodu.stworzStringZTokenów(Tokeny);
-            rozbijNaDzieci();
+            Dzieci = new List<Element>();
+            if (_tokeny != null)
+            {
+                Tokeny = _tokeny;
+                Wyrazenie = GeneratorKodu.stworzStringZTokenów(Tokeny);
+                rozbijNaDzieci();
+            }
         }
 
         /// <summary>

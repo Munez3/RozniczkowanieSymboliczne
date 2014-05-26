@@ -60,7 +60,7 @@ namespace RozniczkowanieSymboliczne
             Pochodna += "(1/(";
             if (Dzieci[1].GetType() == typeof(Elem_Podstawowy)) Pochodna += Dzieci[1].Wyrazenie;
             else Pochodna += "("+Dzieci[1].Wyrazenie+")";
-            Pochodna += "*log("+Dzieci[0].Wyrazenie+")))*";
+            Pochodna += "*log(e,"+Dzieci[0].Wyrazenie+")))*";
             if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
             else Pochodna += "(" + Dzieci[1].Pochodna + ")";
         }
