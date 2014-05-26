@@ -29,57 +29,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Trygonometryczne");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("exp");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("log");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Podstawowe działania");
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Trygonometryczne");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("exp");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("log");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Podstawowe działania");
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Location = new System.Drawing.Point(12, 25);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.treeView1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.webBrowser1);
-            this.splitContainer1.Size = new System.Drawing.Size(402, 439);
-            this.splitContainer1.SplitterDistance = 198;
-            this.splitContainer1.TabIndex = 0;
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(3, 3);
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "Trygonometryczne";
-            treeNode1.Text = "Trygonometryczne";
-            treeNode2.Name = "exp";
-            treeNode2.Text = "exp";
-            treeNode3.Name = "logarytm";
-            treeNode3.Text = "log";
-            treeNode4.Name = "Funkcje";
-            treeNode4.Text = "Funkcje";
-            treeNode5.Name = "SimpleMethods";
-            treeNode5.Text = "Podstawowe działania";
+            treeNode11.Name = "Trygonometryczne";
+            treeNode11.Text = "Trygonometryczne";
+            treeNode12.Name = "exp";
+            treeNode12.Text = "exp";
+            treeNode13.Name = "logarytm";
+            treeNode13.Text = "log";
+            treeNode14.Name = "Funkcje";
+            treeNode14.Text = "Funkcje";
+            treeNode15.Name = "SimpleMethods";
+            treeNode15.Text = "Podstawowe działania";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
-            this.treeView1.Size = new System.Drawing.Size(193, 436);
+            treeNode14,
+            treeNode15});
+            this.treeView1.Size = new System.Drawing.Size(200, 449);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
@@ -89,29 +74,57 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(200, 439);
+            this.webBrowser1.Size = new System.Drawing.Size(227, 449);
             this.webBrowser1.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(427, 27);
+            this.panel1.TabIndex = 1;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.treeView1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.Location = new System.Drawing.Point(0, 27);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(200, 449);
+            this.panel3.TabIndex = 3;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.webBrowser1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(200, 27);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(227, 449);
+            this.panel2.TabIndex = 4;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(427, 476);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel1);
             this.Name = "Form2";
-            this.Text = "Form2";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.Text = "Help";
+            this.panel3.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel2;
     }
 }

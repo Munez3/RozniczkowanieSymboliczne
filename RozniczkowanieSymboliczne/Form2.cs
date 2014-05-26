@@ -20,8 +20,15 @@ namespace RozniczkowanieSymboliczne
         {
             if (e.Node.Text == "exp")
             {
-                //MessageBox.Show("luuul");
                 webBrowser1.Navigate(new Uri(Application.StartupPath+"\\helpFunction/exp.html"));
+            }
+            else if (e.Node.Text == "log")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/log.html"));
+            }
+            else if (e.Node.Text == "Trygonometryczne")
+            {
+                webBrowser1.Navigate(new Uri(Application.StartupPath + "\\helpFunction/tryg.html"));
             }
         }
     }
