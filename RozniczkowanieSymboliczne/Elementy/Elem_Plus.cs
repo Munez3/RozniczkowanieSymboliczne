@@ -12,7 +12,7 @@ namespace RozniczkowanieSymboliczne
         public string Wyrazenie { set; get; }
         public string Pochodna { set; get; }
 
-        private List<string> operatory = new List<string>();
+        public List<string> operatory = new List<string>();
 
         public Elem_Plus(List<Token> _tokeny)
         {

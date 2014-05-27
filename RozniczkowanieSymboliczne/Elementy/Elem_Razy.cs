@@ -59,7 +59,17 @@ namespace RozniczkowanieSymboliczne
             foreach (var dziecko in Dzieci)
                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
 
-            Pochodna += Dzieci[0].Wyrazenie + "*" + Dzieci[1].Pochodna +"+"+ Dzieci[0].Pochodna + "*" + Dzieci[1].Wyrazenie;
+            if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Wyrazenie;
+            else Pochodna += "(" + Dzieci[0].Wyrazenie + ")";
+            Pochodna += "*";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
+            else Pochodna += "(" + Dzieci[1].Pochodna + ")";
+            Pochodna += "+";
+            if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Pochodna;
+            else Pochodna += "(" + Dzieci[0].Pochodna + ")";
+            Pochodna += "*";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Wyrazenie;
+            else Pochodna += "(" + Dzieci[1].Wyrazenie + ")";
         }
     }
 }
