@@ -134,6 +134,7 @@ namespace RozniczkowanieSymboliczne
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 liczProsteBtn_Click(sender, (EventArgs)e);
             }
                 
