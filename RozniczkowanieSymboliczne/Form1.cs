@@ -130,5 +130,14 @@ namespace RozniczkowanieSymboliczne
             }
         }
 
+        private void wyrazenieTB_KeyDown(Object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                liczProsteBtn_Click(sender, (EventArgs)e);
+            }
+                
+        }
+
     }
 }

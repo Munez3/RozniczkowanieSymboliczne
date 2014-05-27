@@ -53,8 +53,8 @@
             this.outputFillPanel = new System.Windows.Forms.Panel();
             this.outputTopPanel = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.ClearButton = new System.Windows.Forms.Button();
             this.WriteButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -120,6 +120,7 @@
             this.wyrazenieTB.Name = "wyrazenieTB";
             this.wyrazenieTB.Size = new System.Drawing.Size(341, 20);
             this.wyrazenieTB.TabIndex = 1;
+            this.wyrazenieTB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.wyrazenieTB_KeyDown);
             // 
             // WprowadzWyrazenieLabel
             // 
@@ -298,16 +299,6 @@
             this.panel1.Size = new System.Drawing.Size(562, 36);
             this.panel1.TabIndex = 7;
             // 
-            // ClearButton
-            // 
-            this.ClearButton.Location = new System.Drawing.Point(6, 6);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(75, 23);
-            this.ClearButton.TabIndex = 0;
-            this.ClearButton.Text = "Wyczyść";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
-            // 
             // WriteButton
             // 
             this.WriteButton.Location = new System.Drawing.Point(475, 5);
@@ -317,6 +308,16 @@
             this.WriteButton.Text = "Zapisz";
             this.WriteButton.UseVisualStyleBackColor = true;
             this.WriteButton.Click += new System.EventHandler(this.WriteButton_Click);
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.Location = new System.Drawing.Point(6, 6);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearButton.TabIndex = 0;
+            this.ClearButton.Text = "Wyczyść";
+            this.ClearButton.UseVisualStyleBackColor = true;
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // BasicForm
             // 
