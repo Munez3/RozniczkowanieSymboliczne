@@ -9,6 +9,7 @@ namespace RozniczkowanieSymboliczne
     /// <summary>
     /// Tryb danych skanera
     /// </summary>
+    /// 
     public enum Mode { Line, Programmer, File};
 
     class Skaner

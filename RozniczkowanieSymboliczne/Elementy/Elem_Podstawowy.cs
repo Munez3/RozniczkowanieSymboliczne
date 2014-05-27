@@ -35,5 +35,14 @@ namespace RozniczkowanieSymboliczne
             if (Tokeny[0].Nazwa == TokenName.ident && Tokeny[0].Wartosc.Equals(identPoKtorymPochodniujemy)) Pochodna = "1";
             else Pochodna = "0";
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            return;
+        }
     }
 }

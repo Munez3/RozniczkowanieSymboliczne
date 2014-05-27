@@ -56,5 +56,17 @@ namespace RozniczkowanieSymboliczne
 
             Pochodna += "(" + Wyrazenie + ")*(" + Dzieci[1].Pochodna + "*log(e," + Dzieci[0].Wyrazenie + ")+" + Dzieci[1].Wyrazenie + "*(" + Dzieci[0].Pochodna + "/" + Dzieci[0].Wyrazenie + "))";
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            Tokeny = new List<Token>();
+            Tokeny.AddRange(Dzieci[0].Tokeny);
+            Tokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
+            Tokeny.AddRange(Dzieci[1].Tokeny);
+        }
     }
 }

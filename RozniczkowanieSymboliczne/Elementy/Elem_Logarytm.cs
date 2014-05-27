@@ -64,5 +64,20 @@ namespace RozniczkowanieSymboliczne
             if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
             else Pochodna += "(" + Dzieci[1].Pochodna + ")";
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            Tokeny = new List<Token>();
+            Tokeny.Add(new Token(TokenName.logFun, "log", 0, 0));
+            Tokeny.Add(new Token(TokenName.Lnawias, "(", 0, 0));
+            Tokeny.AddRange(Dzieci[0].Tokeny);
+            Tokeny.Add(new Token(TokenName.przecinek,",",0,0));
+            Tokeny.AddRange(Dzieci[1].Tokeny);
+            Tokeny.Add(new Token(TokenName.Pnawias, ")", 0, 0));
+        }
     }
 }

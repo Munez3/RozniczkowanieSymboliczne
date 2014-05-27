@@ -121,7 +121,9 @@ namespace RozniczkowanieSymboliczne
             if (mainElement != null)
             {
                 mainElement.WyliczPochodna(identPoKtorymPochodniujemy);
-                wyniki.Add(Cleaner.PorzadkujWyrazenie(mainElement.Pochodna)+"\n"+mainElement.Pochodna+"\n\n"); //TODO po stworzeniu usunąć nieuporzadkowana pochodną
+                wyniki.Add(
+                    Cleaner.PorzadkujWyrazenie(mainElement.Pochodna)+
+                    "\n"+mainElement.Pochodna+"\n\n"); //TODO po stworzeniu usunąć nieuporzadkowana pochodną
             }
         }
 

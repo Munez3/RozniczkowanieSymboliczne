@@ -91,5 +91,30 @@ namespace RozniczkowanieSymboliczne
                 actualKid++;
             }
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            Tokeny = new List<Token>();
+            int actualOperatorIndex = 0;
+            if (Dzieci.Count == operatory.Count)
+            {
+                Tokeny.Add(new Token(TokenName.opMinus,"-",0,0));
+                actualOperatorIndex++;
+            }
+            foreach (var dziecko in Dzieci)
+            {
+                if ((actualOperatorIndex == 1 && Tokeny.Count == 1) || (actualOperatorIndex == 0 && Tokeny.Count == 0)) Tokeny.AddRange(dziecko.Tokeny);
+                else
+                {
+                    if(operatory[actualOperatorIndex].Equals("-")) Tokeny.Add(new Token(TokenName.opMinus,"-",0,0));
+                    else Tokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                    Tokeny.AddRange(dziecko.Tokeny);
+                }
+            }
+        }
     }
 }

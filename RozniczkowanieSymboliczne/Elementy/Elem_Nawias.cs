@@ -40,5 +40,17 @@ namespace RozniczkowanieSymboliczne
             Dzieci[0].WyliczPochodna(identPoKtorymPochodniujemy);
             Pochodna += "(" + Dzieci[0].Pochodna + ")";
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            Tokeny = new List<Token>();
+            Tokeny.Add(new Token(TokenName.Lnawias, "(", 0, 0));
+            Tokeny.AddRange(Dzieci[0].Tokeny);
+            Tokeny.Add(new Token(TokenName.Pnawias, ")", 0, 0));
+        }
     }
 }

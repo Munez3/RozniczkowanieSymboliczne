@@ -61,7 +61,7 @@ namespace RozniczkowanieSymboliczne
         private static void PorzadkujElement(Element element)
         {
             if (element.GetType() == typeof(Elem_Podstawowy)) return;
-            
+
             foreach (var dziecko in element.Dzieci)
                 PorzadkujElement(dziecko);
 
@@ -69,9 +69,7 @@ namespace RozniczkowanieSymboliczne
 
             foreach (var dziecko in element.Dzieci)
             {
-                //Podstawowy
                 if (dziecko.GetType() == typeof(Elem_Podstawowy)) tempDzieci.Add(dziecko);
-                //Plus
                 else if (dziecko.GetType() == typeof(Elem_Plus)) tempDzieci.Add(porzadkujPlus(dziecko));
                 else if (dziecko.GetType() == typeof(Elem_Razy)) tempDzieci.Add(porzadkujRazy(dziecko));
                 else if (dziecko.GetType() == typeof(Elem_Potega)) tempDzieci.Add(porzadkujPotega(dziecko));
@@ -79,6 +77,7 @@ namespace RozniczkowanieSymboliczne
             }
 
             element.Dzieci = tempDzieci;
+            element.GenerujTokenyNaPodstawieElementów();
         }
 
         private static Element porzadkujPotega(Element dziecko)
@@ -91,7 +90,7 @@ namespace RozniczkowanieSymboliczne
             return dziecko;
         }
 
-        private static Element porzadkujPlus(Element element)
+        private static Element porzadkujPlus(Element element) //x+(x+x+sin(x)+x+(sin(x)+x+x))
         {
             //return element;
             List<Token> tempTokeny = new List<Token>();
@@ -160,6 +159,7 @@ namespace RozniczkowanieSymboliczne
                         tempTokeny.AddRange(item.Dzieci[0].Tokeny);
                         actualOperatorIndex++;
                     }
+                    else if (item.Dzieci[0].Tokeny[0].Wartosc.Equals("0") || item.Dzieci[1].Tokeny[0].Wartosc.Equals("0")) { actualOperatorIndex++; }
                     else
                     {
                         if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
@@ -171,12 +171,48 @@ namespace RozniczkowanieSymboliczne
                 //nawiasy
                 else if (item.GetType() == typeof(Elem_Nawias))
                 {
-                    if (item.Dzieci[0].GetType() == typeof(Elem_Podstawowy)) tempTokeny.Add(item.Dzieci[0].Tokeny[0]);
+                    //Gdy tylko element podstawowy w nawiasie
+                    if (item.Dzieci[0].GetType() == typeof(Elem_Podstawowy)) 
+                    {
+                        if (item.Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba)
+                        {
+                            if (actualOperatorIndex - 1 < 0 || operatory[actualOperatorIndex - 1].Equals("+")) wyraz_wolny += GeneratorKodu.zwrocDoubleZTokenu(item.Dzieci[0].Tokeny[0]);
+                            else wyraz_wolny -= GeneratorKodu.zwrocDoubleZTokenu(item.Dzieci[0].Tokeny[0]);
+                        }
+                        else
+                        {
+                            if (tempTokeny.Count != 0 && actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                            else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
+                            tempTokeny.Add(item.Dzieci[0].Tokeny[0]);
+                        }
+                        actualOperatorIndex++;
+                    }
+                    //gdy inny plus to można złączyć
                     else if (item.Dzieci[0].GetType() == typeof(Elem_Plus))
                     {
-                        if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                        //if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-") && item.Dzieci[0].Tokeny[0].Nazwa != TokenName.opMinus && item.Dzieci[0].Tokeny[0].Nazwa != TokenName.opPlus ) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
+
+                        if (tempTokeny.Count != 0 && actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                         else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
-                        tempTokeny.AddRange(item.Tokeny);
+
+                        List<Token> tokenyDoZamianyZnakow = new List<Token>();
+                        foreach (var token in item.Dzieci[0].Tokeny)
+                        {
+                            if (tempTokeny.Count != 0 && tempTokeny[tempTokeny.Count-1].Nazwa == TokenName.opMinus && token.Nazwa == TokenName.opMinus) tokenyDoZamianyZnakow.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                            else if (tempTokeny.Count != 0 && tempTokeny[tempTokeny.Count - 1].Nazwa == TokenName.opMinus && token.Nazwa == TokenName.opPlus) tokenyDoZamianyZnakow.Add(new Token(TokenName.opMinus, "-", 0, 0));
+                            else tokenyDoZamianyZnakow.Add(token);
+                        }
+
+                        if (tokenyDoZamianyZnakow[0].Nazwa == TokenName.opPlus) tokenyDoZamianyZnakow.Remove(tokenyDoZamianyZnakow[0]);
+                        //if (tempTokeny.Count != 0 && tokenyDoZamianyZnakow[0].Nazwa != TokenName.opMinus) tempTokeny.Add(new Token(TokenName.opPlus,"+",0,0));
+                        tempTokeny.AddRange(tokenyDoZamianyZnakow);
+                        actualOperatorIndex++;
+                    }
+                    else
+                    {
+                        if (tempTokeny.Count != 0 && actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                        else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
+                        tempTokeny.AddRange(item.Dzieci[0].Tokeny);
                         actualOperatorIndex++;
                     }
                 }
@@ -195,9 +231,12 @@ namespace RozniczkowanieSymboliczne
             if (tempTokeny.Count == 0 && znak_wyrazu_wolnego.Equals("+")) return new Elem_Podstawowy(new List<Token>() { new Token(TokenName.liczba, GeneratorKodu.doubleToString(wyraz_wolny), 0, 0) });
             else
             {
-                if (znak_wyrazu_wolnego.Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
-                else tempTokeny.Add(new Token(TokenName.opMinus, "+", 0, 0));
-                tempTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(wyraz_wolny), 0, 0));
+                if (wyraz_wolny != 0)
+                {
+                    if (znak_wyrazu_wolnego.Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
+                    else tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                    tempTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(wyraz_wolny), 0, 0));
+                }
                 return new Elem_Plus(tempTokeny);
             }
         }

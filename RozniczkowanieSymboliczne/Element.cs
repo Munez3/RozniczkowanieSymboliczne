@@ -21,5 +21,11 @@ namespace RozniczkowanieSymboliczne
         /// Wylicza pochodną
         /// </summary>
         void WyliczPochodna(string identPoKtorymPochodniujemy);
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        void GenerujTokenyNaPodstawieElementów();
     }
 }

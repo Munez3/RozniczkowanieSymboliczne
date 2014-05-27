@@ -71,5 +71,17 @@ namespace RozniczkowanieSymboliczne
             if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Wyrazenie;
             else Pochodna += "(" + Dzieci[1].Wyrazenie + ")";
         }
+
+        /// <summary>
+        /// Generuje listę tokenów na podstawie elementów
+        /// </summary>
+        /// <param name="list">Lista dzieci</param>
+        public void GenerujTokenyNaPodstawieElementów()
+        {
+            Tokeny = new List<Token>();
+            Tokeny.AddRange(Dzieci[0].Tokeny);
+            Tokeny.Add(new Token(TokenName.opMnozenie, "*", 0, 0));
+            Tokeny.AddRange(Dzieci[1].Tokeny);
+        }
     }
 }
