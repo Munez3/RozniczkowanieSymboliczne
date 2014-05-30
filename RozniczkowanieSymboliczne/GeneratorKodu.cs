@@ -5,15 +5,18 @@ using System.Text;
 
 namespace RozniczkowanieSymboliczne
 {
+    public enum GeneratorMode { Normal, Debug };
     class GeneratorKodu
     {
         private List<Token> wszystkieTokeny;
         private List<string> wyniki;
+        private List<string> wynikiDebug;
 
         public GeneratorKodu(List<Token> tokeny)
         {
             this.wszystkieTokeny = tokeny;
             wyniki = new List<string>();
+            wynikiDebug = new List<string>();
             List<List<Token>> wyrazenia = rozbijNaWyrażenia(tokeny);
             foreach (var wyrazenie in wyrazenia)
                 zpochodniujWyrażenie(wyrazenie);
@@ -23,11 +26,19 @@ namespace RozniczkowanieSymboliczne
         /// Zwraca wszystkie wyniki w stringu oddzielając je nową linią
         /// </summary>
         /// <returns></returns>
-        public string WyswietlWyniki()
+        public string WyswietlWyniki(GeneratorMode mode)
         {
             string wszystko = "";
-            foreach (var wynik in wyniki)
-                wszystko += wynik + '\n';
+            if (mode == GeneratorMode.Normal)
+            {
+                foreach (var wynik in wyniki)
+                    wszystko += wynik + '\n';
+            }
+            else
+            {
+                foreach (var wynikDebug in wynikiDebug)
+                    wszystko += wynikDebug + '\n';
+            }
             return wszystko;
         }
 
@@ -121,9 +132,16 @@ namespace RozniczkowanieSymboliczne
             if (mainElement != null)
             {
                 mainElement.WyliczPochodna(identPoKtorymPochodniujemy);
-                wyniki.Add(
-                    Cleaner.PorzadkujWyrazenie(mainElement.Pochodna)+
-                    "\n"+mainElement.Pochodna+"\n\n"); //TODO po stworzeniu usunąć nieuporzadkowana pochodną
+
+                string wczesniejszePorzadkowanie = "";
+                string aktualnePorzadkowanie = Cleaner.PorzadkujWyrazenie(mainElement.Pochodna);
+                while (!wczesniejszePorzadkowanie.Equals(aktualnePorzadkowanie))
+                {
+                    wczesniejszePorzadkowanie = aktualnePorzadkowanie;
+                    aktualnePorzadkowanie = Cleaner.PorzadkujWyrazenie(wczesniejszePorzadkowanie);
+                }
+                wyniki.Add(aktualnePorzadkowanie);
+                wynikiDebug.Add(aktualnePorzadkowanie+"\n"+mainElement.Pochodna+"\n\n");
             }
         }
 

@@ -55,6 +55,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.WriteButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
+            this.trybDebugCB = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -209,8 +210,8 @@
             this.FormulaTB.Size = new System.Drawing.Size(517, 140);
             this.FormulaTB.TabIndex = 0;
             this.FormulaTB.Text = "for i=0:10 %komentarz\n\tx^3+4*x*i+2+i\n                i*x\n\t2*x^3+2*sin(log(2,50*x)" +
-                "+20*x)^3\nend\n\n2*x^3+2*sin(log(2,50*x)+20*x)^3\n2*x^3+2*sin(log(2,50*x)+20*x)^4\n%d" +
-                "rugi komentarz";
+    "+20*x)^3\nend\n\n2*x^3+2*sin(log(2,50*x)+20*x)^3\n2*x^3+2*sin(log(2,50*x)+20*x)^4\n%d" +
+    "rugi komentarz";
             // 
             // FilePanel
             // 
@@ -291,6 +292,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.trybDebugCB);
             this.panel1.Controls.Add(this.WriteButton);
             this.panel1.Controls.Add(this.ClearButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -319,6 +321,19 @@
             this.ClearButton.UseVisualStyleBackColor = true;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
+            // trybDebugCB
+            // 
+            this.trybDebugCB.AutoSize = true;
+            this.trybDebugCB.Checked = true;
+            this.trybDebugCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.trybDebugCB.Location = new System.Drawing.Point(359, 10);
+            this.trybDebugCB.Name = "trybDebugCB";
+            this.trybDebugCB.Size = new System.Drawing.Size(80, 17);
+            this.trybDebugCB.TabIndex = 2;
+            this.trybDebugCB.Text = "Tryb debug";
+            this.trybDebugCB.UseVisualStyleBackColor = true;
+            this.trybDebugCB.CheckedChanged += new System.EventHandler(this.trybDebugCB_CheckedChanged);
+            // 
             // BasicForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -345,6 +360,7 @@
             this.outputTopPanel.ResumeLayout(false);
             this.outputTopPanel.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,6 +395,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button WriteButton;
+        private System.Windows.Forms.CheckBox trybDebugCB;
     }
 }
 

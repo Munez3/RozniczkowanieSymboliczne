@@ -11,6 +11,7 @@ namespace RozniczkowanieSymboliczne
 {
     public partial class BasicForm : Form
     {
+        private GeneratorKodu generatorKodu;
         public BasicForm()
         {
             InitializeComponent();
@@ -54,8 +55,8 @@ namespace RozniczkowanieSymboliczne
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
-                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
-                    OutputTB.Text = generatorKodu.WyswietlWyniki();
+                    generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = ((!trybDebugCB.Checked) ? generatorKodu.WyswietlWyniki(GeneratorMode.Normal) : generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
             //}
             //catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
@@ -72,8 +73,8 @@ namespace RozniczkowanieSymboliczne
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
-                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
-                    OutputTB.Text = generatorKodu.WyswietlWyniki();
+                    generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = ((!trybDebugCB.Checked)?generatorKodu.WyswietlWyniki(GeneratorMode.Normal):generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
             //}
             //catch (Exception ex) { OutputTB.Text = ex.Message; }
@@ -90,8 +91,8 @@ namespace RozniczkowanieSymboliczne
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
-                    GeneratorKodu generatorKodu = new GeneratorKodu(tokeny);
-                    OutputTB.Text = generatorKodu.WyswietlWyniki();
+                    generatorKodu = new GeneratorKodu(tokeny);
+                    OutputTB.Text = ((!trybDebugCB.Checked) ? generatorKodu.WyswietlWyniki(GeneratorMode.Normal) : generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
             }
             catch (Exception ex) { OutputTB.Text = ex.Message; }
@@ -138,6 +139,12 @@ namespace RozniczkowanieSymboliczne
                 liczProsteBtn_Click(sender, (EventArgs)e);
             }
                 
+        }
+
+        private void trybDebugCB_CheckedChanged(object sender, EventArgs e)
+        {
+            if(generatorKodu != null)
+                OutputTB.Text = ((!trybDebugCB.Checked) ? generatorKodu.WyswietlWyniki(GeneratorMode.Normal) : generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
         }
 
     }
