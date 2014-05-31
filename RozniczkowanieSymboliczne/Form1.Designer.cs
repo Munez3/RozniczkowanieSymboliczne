@@ -56,6 +56,7 @@
             this.WriteButton = new System.Windows.Forms.Button();
             this.ClearButton = new System.Windows.Forms.Button();
             this.trybDebugCB = new System.Windows.Forms.CheckBox();
+            this.porzadkujBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.BasicPanel.SuspendLayout();
             this.FormulaPanel.SuspendLayout();
@@ -134,6 +135,7 @@
             // 
             // BasicPanel
             // 
+            this.BasicPanel.Controls.Add(this.porzadkujBtn);
             this.BasicPanel.Controls.Add(this.liczProsteBtn);
             this.BasicPanel.Controls.Add(this.wyrazenieTB);
             this.BasicPanel.Controls.Add(this.WprowadzWyrazenieLabel);
@@ -334,6 +336,16 @@
             this.trybDebugCB.UseVisualStyleBackColor = true;
             this.trybDebugCB.CheckedChanged += new System.EventHandler(this.trybDebugCB_CheckedChanged);
             // 
+            // porzadkujBtn
+            // 
+            this.porzadkujBtn.Location = new System.Drawing.Point(457, 122);
+            this.porzadkujBtn.Name = "porzadkujBtn";
+            this.porzadkujBtn.Size = new System.Drawing.Size(75, 23);
+            this.porzadkujBtn.TabIndex = 6;
+            this.porzadkujBtn.Text = "Porządkuj";
+            this.porzadkujBtn.UseVisualStyleBackColor = true;
+            this.porzadkujBtn.Click += new System.EventHandler(this.porzadkujBtn_Click);
+            // 
             // BasicForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,9 +353,9 @@
             this.ClientSize = new System.Drawing.Size(562, 544);
             this.Controls.Add(this.outputPanel);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.BasicPanel);
             this.Controls.Add(this.FormulaPanel);
             this.Controls.Add(this.FilePanel);
-            this.Controls.Add(this.BasicPanel);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "BasicForm";
             this.Text = "Różniczkowanie Symboliczne";
@@ -396,6 +408,7 @@
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.Button WriteButton;
         private System.Windows.Forms.CheckBox trybDebugCB;
+        private System.Windows.Forms.Button porzadkujBtn;
     }
 }
 

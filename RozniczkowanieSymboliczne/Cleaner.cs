@@ -235,7 +235,6 @@ namespace RozniczkowanieSymboliczne
                     //identy
                     else if (item.Tokeny[0].Nazwa == TokenName.ident)
                     {
-                        //TODO
                         if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                         else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
                         tempTokeny.Add(item.Tokeny[0]);
@@ -259,7 +258,6 @@ namespace RozniczkowanieSymboliczne
                     //oba identy
                     else
                     {
-                        //TODO
                         if (tempTokeny.Count != 0 && actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                         else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
                         tempTokeny.AddRange(item.Tokeny);
@@ -314,8 +312,6 @@ namespace RozniczkowanieSymboliczne
                     //gdy inny plus to można złączyć
                     else if (item.Dzieci[0].GetType() == typeof(Elem_Plus))
                     {
-                        //if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-") && item.Dzieci[0].Tokeny[0].Nazwa != TokenName.opMinus && item.Dzieci[0].Tokeny[0].Nazwa != TokenName.opPlus ) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
-
                         if (tempTokeny.Count != 0 && actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                         else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
 
@@ -328,7 +324,6 @@ namespace RozniczkowanieSymboliczne
                         }
 
                         if (tokenyDoZamianyZnakow[0].Nazwa == TokenName.opPlus) tokenyDoZamianyZnakow.Remove(tokenyDoZamianyZnakow[0]);
-                        //if (tempTokeny.Count != 0 && tokenyDoZamianyZnakow[0].Nazwa != TokenName.opMinus) tempTokeny.Add(new Token(TokenName.opPlus,"+",0,0));
                         tempTokeny.AddRange(tokenyDoZamianyZnakow);
                         actualOperatorIndex++;
                     }
@@ -343,7 +338,6 @@ namespace RozniczkowanieSymboliczne
                 //inne
                 else
                 {
-                    //TODO coś z tym zrobić
                     if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("+")) tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                     else if (actualOperatorIndex - 1 >= 0 && operatory[actualOperatorIndex - 1].Equals("-")) tempTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
                     tempTokeny.AddRange(item.Tokeny);
@@ -370,7 +364,61 @@ namespace RozniczkowanieSymboliczne
                     else tempTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
                     tempTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(wyraz_wolny), 0, 0));
                 }
-                return new Elem_Plus(tempTokeny);
+
+                //grupowanie
+                Elem_Plus tempPlus = new Elem_Plus(tempTokeny);
+                Dictionary<string, double> grupy = new Dictionary<string, double>();
+                int operatoryIndex = 0;
+                if (tempPlus.operatory.Count == tempPlus.Dzieci.Count) operatoryIndex++;
+                //Zliczenie ilości występowania 
+                foreach (var dziecko in tempPlus.Dzieci)
+                {
+                    //Jeżeli mnożenie gdzie jeden z czynników to liczba to dodajemy do naszej listy drugi czynnik z multiplikatorem równym liczbie
+                    if (dziecko.GetType() == typeof(Elem_Razy) && dziecko.Dzieci[0].GetType() == typeof(Elem_Podstawowy) && dziecko.Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba)
+                    {
+                        if (grupy.ContainsKey(dziecko.Dzieci[1].Wyrazenie))
+                            grupy[dziecko.Dzieci[1].Wyrazenie] = (operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("+")) ? grupy[dziecko.Dzieci[1].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[0].Tokeny[0]) : grupy[dziecko.Dzieci[1].Wyrazenie] -= GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[0].Tokeny[0]);
+                        else if (operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("-")) grupy.Add(dziecko.Dzieci[1].Wyrazenie, -1*GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[0].Tokeny[0]));
+                        else grupy.Add(dziecko.Dzieci[1].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[0].Tokeny[0]));
+                    }
+                    else if (dziecko.GetType() == typeof(Elem_Razy) && dziecko.Dzieci[1].GetType() == typeof(Elem_Podstawowy) && dziecko.Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
+                    {
+                        if (grupy.ContainsKey(dziecko.Dzieci[0].Wyrazenie))
+                            grupy[dziecko.Dzieci[0].Wyrazenie] = (operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("+")) ? grupy[dziecko.Dzieci[0].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[1].Tokeny[0]) : grupy[dziecko.Dzieci[0].Wyrazenie] -= GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[1].Tokeny[0]);
+                        else if(operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("-")) grupy.Add(dziecko.Dzieci[0].Wyrazenie, -1*GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[1].Tokeny[0]));
+                        else grupy.Add(dziecko.Dzieci[0].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(dziecko.Dzieci[1].Tokeny[0]));
+                    }
+                    //Wszystki inne przypadki
+                    else
+                    {
+                        if (grupy.ContainsKey(dziecko.Wyrazenie))
+                            grupy[dziecko.Wyrazenie] = (operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("+")) ? grupy[dziecko.Wyrazenie] + 1 : grupy[dziecko.Wyrazenie] - 1;
+                        else if(operatoryIndex - 1 >= 0 && tempPlus.operatory[operatoryIndex-1].Equals("-")) grupy.Add(dziecko.Wyrazenie, -1);
+                        else grupy.Add(dziecko.Wyrazenie, 1);
+                    }
+                    operatoryIndex++;
+                }
+
+                List<Token> noweTokeny = new List<Token>();
+                foreach (var rejestr in grupy)
+                {
+                    if (rejestr.Value != 0)
+                    {
+                        Skaner tempSkaner = new Skaner(rejestr.Key, Mode.Line);
+                        if (rejestr.Value < 0) noweTokeny.Add(new Token(TokenName.opMinus, "-", 0, 0));
+                        else if (noweTokeny.Count != 0) noweTokeny.Add(new Token(TokenName.opPlus, "+", 0, 0));
+                        double value = rejestr.Value < 0 ? -rejestr.Value : rejestr.Value;
+                        if (value != 1)
+                        {
+                            noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(value), 0, 0));
+                            noweTokeny.Add(new Token(TokenName.opMnozenie, "*", 0, 0));
+                        }
+                        List<Token> tokenyZSkanera = tempSkaner.GetAllTokens();
+                        tokenyZSkanera.Remove(tokenyZSkanera[tokenyZSkanera.Count - 1]);
+                        noweTokeny.AddRange(tokenyZSkanera);
+                    }
+                }
+                return GeneratorKodu.wygenerujElement(noweTokeny);
             }
         }
     }

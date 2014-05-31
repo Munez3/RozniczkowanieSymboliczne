@@ -147,5 +147,10 @@ namespace RozniczkowanieSymboliczne
                 OutputTB.Text = ((!trybDebugCB.Checked) ? generatorKodu.WyswietlWyniki(GeneratorMode.Normal) : generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
         }
 
+        private void porzadkujBtn_Click(object sender, EventArgs e)
+        {
+            OutputTB.Text = Cleaner.PorzadkujWyrazenie(wyrazenieTB.Text);
+        }
+
     }
 }
