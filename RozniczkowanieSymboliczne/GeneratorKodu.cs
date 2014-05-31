@@ -132,16 +132,8 @@ namespace RozniczkowanieSymboliczne
             if (mainElement != null)
             {
                 mainElement.WyliczPochodna(identPoKtorymPochodniujemy);
-
-                string wczesniejszePorzadkowanie = "";
-                string aktualnePorzadkowanie = Cleaner.PorzadkujWyrazenie(mainElement.Pochodna);
-                while (!wczesniejszePorzadkowanie.Equals(aktualnePorzadkowanie))
-                {
-                    wczesniejszePorzadkowanie = aktualnePorzadkowanie;
-                    aktualnePorzadkowanie = Cleaner.PorzadkujWyrazenie(wczesniejszePorzadkowanie);
-                }
-                wyniki.Add(aktualnePorzadkowanie);
-                wynikiDebug.Add(aktualnePorzadkowanie+"\n"+mainElement.Pochodna+"\n\n");
+                wyniki.Add(Cleaner.PorzadkujWyrazenie(mainElement.Pochodna));
+                wynikiDebug.Add(Cleaner.PorzadkujWyrazenie(mainElement.Pochodna) + "\n" + mainElement.Pochodna + "\n\n");
             }
         }
 

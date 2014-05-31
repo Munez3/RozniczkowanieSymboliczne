@@ -149,6 +149,10 @@ namespace RozniczkowanieSymboliczne
 
         private void porzadkujBtn_Click(object sender, EventArgs e)
         {
+            Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
+            Parser parser = new Parser(skaner.GetAllTokens());
+            parser.Parse();
+
             OutputTB.Text = Cleaner.PorzadkujWyrazenie(wyrazenieTB.Text);
         }
 
