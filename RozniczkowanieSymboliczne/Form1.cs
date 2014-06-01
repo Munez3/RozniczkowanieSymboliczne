@@ -25,6 +25,8 @@ namespace RozniczkowanieSymboliczne
             BasicPanel.Visible=true;
             FilePanel.Visible = false;
             FormulaPanel.Visible = false;
+            topPanel.Bounds = new Rectangle(0, 0, topPanel.Width, 244);
+            outputPanel.Padding = new Padding(0,243,0,0);
         }
 
         private void programistycznyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -32,6 +34,8 @@ namespace RozniczkowanieSymboliczne
             BasicPanel.Visible = false;
             FilePanel.Visible = false;
             FormulaPanel.Visible = true;
+            topPanel.Bounds = new Rectangle(0, 0, topPanel.Width, 244);
+            outputPanel.Padding = new Padding(0, 243, 0, 0);
         }
 
         private void plikowyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,34 +43,35 @@ namespace RozniczkowanieSymboliczne
             BasicPanel.Visible = false;
             FilePanel.Visible = true;
             FormulaPanel.Visible = false;
+            topPanel.Bounds = new Rectangle(0,0,topPanel.Width,81);
+            outputPanel.Padding = new Padding(0, 80, 0, 0);
         }
 
         private void liczProgramBtn_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 Skaner skaner = new Skaner(FormulaTB.Text, Mode.Programmer);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
-                //foreach (var token in tokeny)
-                //{
-                //    OutputTB.Text += token.Nazwa + " - " + token.Wartosc + '\n';
-                //}
+
                 Parser parser = new Parser(tokeny);
                 if (parser.Parse())
                 {
                     generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = ((!trybDebugCB.Checked) ? generatorKodu.WyswietlWyniki(GeneratorMode.Normal) : generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
-            //}
-            //catch (Exception ex) { OutputTB.Text = ex.Message+"\n"+OutputTB.Text; }
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message + "\n" + OutputTB.Text; }
         }
 
         private void liczProsteBtn_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-                Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
+            try
+            {
+                Skaner skaner;
+                if(listaIdentowLB.SelectedIndex == -1) skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
+                else skaner = new Skaner("#"+listaIdentowLB.SelectedItem+" "+wyrazenieTB.Text, Mode.Line);
                 List<Token> tokeny = skaner.GetAllTokens();
                 OutputTB.Text = "";
 
@@ -76,8 +81,8 @@ namespace RozniczkowanieSymboliczne
                     generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = ((!trybDebugCB.Checked)?generatorKodu.WyswietlWyniki(GeneratorMode.Normal):generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
-            //}
-            //catch (Exception ex) { OutputTB.Text = ex.Message; }
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
 
         private void liczFileBtn_Click(object sender, EventArgs e)
@@ -154,6 +159,29 @@ namespace RozniczkowanieSymboliczne
             parser.Parse();
 
             OutputTB.Text = Cleaner.PorzadkujWyrazenie(wyrazenieTB.Text);
+        }
+
+        private void wyrazenieTB_TextChanged(object sender, EventArgs e)
+        {
+            listaIdentowLB.Items.Clear();
+            string wyrazenie = wyrazenieTB.Text;
+            int i = 0;
+            while (i < wyrazenie.Length && Char.IsWhiteSpace(wyrazenie[i])) i++;
+            if (i != wyrazenie.Length && wyrazenie[i] == '#' && listaIdentowLB.Enabled) listaIdentowLB.Enabled = false;
+            else if (i != wyrazenie.Length && wyrazenie[i] != '#' && !listaIdentowLB.Enabled) listaIdentowLB.Enabled = true;
+
+            try
+            {
+                Skaner skaner = new Skaner(wyrazenie, Mode.Line);
+                foreach (var token in skaner.GetAllTokens())
+                {
+                    if (token.Nazwa == TokenName.ident && !listaIdentowLB.Items.Contains(token.Wartosc)) listaIdentowLB.Items.Add(token.Wartosc);
+                }
+            }
+            catch (Exception ex)
+            {
+                listaIdentowLB.Items.Clear();
+            }
         }
 
     }

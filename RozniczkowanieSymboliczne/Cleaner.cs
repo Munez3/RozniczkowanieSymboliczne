@@ -104,6 +104,7 @@ namespace RozniczkowanieSymboliczne
             if(element.Dzieci[0].GetType() == typeof(Elem_Podstawowy) && element.Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba 
                 && element.Dzieci[1].GetType() == typeof(Elem_Podstawowy) && element.Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
                 return new Elem_Podstawowy(new List<Token>() { new Token(TokenName.liczba, GeneratorKodu.doubleToString(Math.Log(GeneratorKodu.zwrocDoubleZTokenu(element.Dzieci[1].Tokeny[0]), GeneratorKodu.zwrocDoubleZTokenu(element.Dzieci[0].Tokeny[0]))), 0, 0) });
+            //Ewentualne dodanie log(e,liczba)
             return element;
         }
 
@@ -220,7 +221,7 @@ namespace RozniczkowanieSymboliczne
                 tempTokenyLewe.AddRange(tempTokenyPrawe);
             }
 
-            return GeneratorKodu.wygenerujElement(tempTokenyLewe);
+            return grupujMnozeniaiDzielenia(GeneratorKodu.wygenerujElement(tempTokenyLewe));
         }
 
         /// <summary>
@@ -271,97 +272,136 @@ namespace RozniczkowanieSymboliczne
             {
                 tempTokenyLewe.Add(new Token(TokenName.opMnozenie, "*", 0,0));
                 tempTokenyLewe.AddRange(tempTokenyPrawe);
-                //return GeneratorKodu.wygenerujElement(tempTokenyLewe);
 
                 //Grupowanie
-                Dictionary<string, double> grupy = new Dictionary<string, double>();
+                return grupujMnozeniaiDzielenia(GeneratorKodu.wygenerujElement(tempTokenyLewe));
+            }
+        }
 
-                Element elementTymczasowy = GeneratorKodu.wygenerujElement(tempTokenyLewe);
-                while (elementTymczasowy.GetType() == typeof(Elem_Razy) || elementTymczasowy.GetType() == typeof(Elem_Dzielenie))
+        /// <summary>
+        /// Funkcja grupujaca mnożenia i dzielenia
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        private static Element grupujMnozeniaiDzielenia(Element element)
+        {
+            Dictionary<string, double> grupy = new Dictionary<string, double>();
+            double wyrazWolny = 1;
+
+            Element elementTymczasowy = element;
+            while (elementTymczasowy.GetType() == typeof(Elem_Razy) || elementTymczasowy.GetType() == typeof(Elem_Dzielenie))
+            {
+                //Drugie dziecko zawsze będzie czymś innym niż mnożenie, czy dzielenie dlatego od razu dodajemy je do grup
+                //Jeżeli drugie dziecko to potęga
+                if (elementTymczasowy.Dzieci[1].GetType() == typeof(Elem_Potega) && elementTymczasowy.Dzieci[1].Dzieci[1].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
                 {
-                    //Drugie dziecko zawsze będzie czymś innym niż mnożenie, czy dzielenie dlatego od razu dodajemy je do grup
-                    //Jeżeli drugie dziecko to potęga
-                    if (elementTymczasowy.Dzieci[1].GetType() == typeof(Elem_Potega) && elementTymczasowy.Dzieci[1].Dzieci[1].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
+                    //Gdy istnieje już z grupach
+                    if (grupy.ContainsKey(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie))
+                    {
+                        if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy[elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]);
+                        else grupy[elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie] -= GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]);
+                    }
+                    else
+                    {
+                        if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy.Add(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]));
+                        else grupy.Add(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie, -1 * GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]));
+                    }
+                }
+                //Jeżeli pojedyncza liczba
+                else if (elementTymczasowy.Dzieci[1].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
+                {
+                    if (elementTymczasowy.GetType() == typeof(Elem_Razy)) wyrazWolny *= GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Tokeny[0]);
+                    else wyrazWolny /= GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Tokeny[0]);
+                }
+                //Jeżeli liczba ujemna w nawiasie
+                else if (elementTymczasowy.Dzieci[1].GetType() == typeof(Elem_Nawias) && elementTymczasowy.Dzieci[1].Dzieci[0].GetType() == typeof(Elem_Plus)
+                    && elementTymczasowy.Dzieci[1].Dzieci[0].Dzieci.Count == 1 && elementTymczasowy.Dzieci[1].Dzieci[0].Dzieci[0].GetType() == typeof(Elem_Podstawowy)
+                    && elementTymczasowy.Dzieci[1].Dzieci[0].Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba) 
+                {
+                    Elem_Plus temp = (Elem_Plus)elementTymczasowy.Dzieci[1].Dzieci[0];
+                    if (elementTymczasowy.GetType() == typeof(Elem_Razy)) wyrazWolny *= GeneratorKodu.zwrocDoubleZTokenu(temp.Dzieci[0].Tokeny[0]);
+                    else wyrazWolny /= GeneratorKodu.zwrocDoubleZTokenu(temp.Dzieci[0].Tokeny[0]);
+                    if (temp.operatory.Count != 0 && temp.operatory[0].Equals("-")) wyrazWolny *= -1;
+                }
+                //Jeżeli coś innego
+                else
+                {
+                    if (grupy.ContainsKey(elementTymczasowy.Dzieci[1].Wyrazenie))
+                    {
+                        if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy[elementTymczasowy.Dzieci[1].Wyrazenie] += 1;
+                        else grupy[elementTymczasowy.Dzieci[1].Wyrazenie] -= 1;
+                    }
+                    else
+                    {
+                        if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy.Add(elementTymczasowy.Dzieci[1].Wyrazenie, 1);
+                        else grupy.Add(elementTymczasowy.Dzieci[1].Wyrazenie, -1);
+                    }
+                }
+
+                //Jeżeli pierwsze dziecko nie jest mnożeniem lub dzieleniem to dodajemy pierwszy człon jako mnożenie
+                if (elementTymczasowy.Dzieci[0].GetType() != typeof(Elem_Razy) && elementTymczasowy.Dzieci[0].GetType() != typeof(Elem_Dzielenie))
+                {
+                    if (elementTymczasowy.Dzieci[0].GetType() == typeof(Elem_Potega) && elementTymczasowy.Dzieci[0].Dzieci[1].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
                     {
                         //Gdy istnieje już z grupach
-                        if (grupy.ContainsKey(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie))
-                        {
-                            if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy[elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]);
-                            else grupy[elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie] -= GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]);
-                        }
-                        else
-                        {
-                            if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy.Add(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]));
-                            else grupy.Add(elementTymczasowy.Dzieci[1].Dzieci[0].Wyrazenie, -1 * GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[1].Dzieci[1].Tokeny[0]));
-                        }
+                        if (grupy.ContainsKey(elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie)) grupy[elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0]);
+                        else grupy.Add(elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0]));
+                    }
+                    //Jeżeli pojedyncza liczba
+                    else if (elementTymczasowy.Dzieci[0].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba)
+                        wyrazWolny *= GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[0].Tokeny[0]);
+                    //Jeżeli liczba ujemna w nawiasie
+                    else if (elementTymczasowy.Dzieci[0].GetType() == typeof(Elem_Nawias) && elementTymczasowy.Dzieci[0].Dzieci[0].GetType() == typeof(Elem_Plus)
+                        && elementTymczasowy.Dzieci[0].Dzieci[0].Dzieci.Count == 1 && elementTymczasowy.Dzieci[0].Dzieci[0].Dzieci[0].GetType() == typeof(Elem_Podstawowy)
+                        && elementTymczasowy.Dzieci[0].Dzieci[0].Dzieci[0].Tokeny[0].Nazwa == TokenName.liczba)
+                    {
+                        Elem_Plus temp = (Elem_Plus)elementTymczasowy.Dzieci[0].Dzieci[0];
+                        wyrazWolny *= GeneratorKodu.zwrocDoubleZTokenu(temp.Dzieci[0].Tokeny[0]);
+                        if (temp.operatory.Count != 0 && temp.operatory[0].Equals("-")) wyrazWolny *= -1;
                     }
                     //Jeżeli coś innego
                     else
                     {
-                        if (grupy.ContainsKey(elementTymczasowy.Dzieci[1].Wyrazenie))
-                        {
-                            if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy[elementTymczasowy.Dzieci[1].Wyrazenie] += 1;
-                            else grupy[elementTymczasowy.Dzieci[1].Wyrazenie] -= 1;
-                        }
-                        else
-                        {
-                            if (elementTymczasowy.GetType() == typeof(Elem_Razy)) grupy.Add(elementTymczasowy.Dzieci[1].Wyrazenie, 1);
-                            else grupy.Add(elementTymczasowy.Dzieci[1].Wyrazenie, -1);
-                        }
+                        if (grupy.ContainsKey(elementTymczasowy.Dzieci[0].Wyrazenie)) grupy[elementTymczasowy.Dzieci[0].Wyrazenie] += 1;
+                        else grupy.Add(elementTymczasowy.Dzieci[0].Wyrazenie, 1);
                     }
-
-                    //Jeżeli pierwsze dziecko nie jest mnożeniem lub dzieleniem to dodajemy pierwszy człon jako mnożenie
-                    if(elementTymczasowy.Dzieci[0].GetType() != typeof(Elem_Razy) && elementTymczasowy.Dzieci[0].GetType() != typeof(Elem_Dzielenie))
-                    {
-                        if (elementTymczasowy.Dzieci[0].GetType() == typeof(Elem_Potega) && elementTymczasowy.Dzieci[0].Dzieci[1].GetType() == typeof(Elem_Podstawowy) && elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0].Nazwa == TokenName.liczba)
-                        {
-                            //Gdy istnieje już z grupach
-                            if (grupy.ContainsKey(elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie)) grupy[elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie] += GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0]);
-                            else grupy.Add(elementTymczasowy.Dzieci[0].Dzieci[0].Wyrazenie, GeneratorKodu.zwrocDoubleZTokenu(elementTymczasowy.Dzieci[0].Dzieci[1].Tokeny[0]));
-                        }
-                        //Jeżeli coś innego
-                        else
-                        {
-                            if (grupy.ContainsKey(elementTymczasowy.Dzieci[0].Wyrazenie)) grupy[elementTymczasowy.Dzieci[0].Wyrazenie] += 1;
-                            else grupy.Add(elementTymczasowy.Dzieci[0].Wyrazenie, 1);
-                        }
-                    }
-                    elementTymczasowy = elementTymczasowy.Dzieci[0];
                 }
-
-                List<Token> noweTokeny = new List<Token>();
-                foreach (var rejestr in grupy.OrderBy(key => key.Key))
-                {
-                    Skaner skaner = new Skaner(rejestr.Key, Mode.Line);
-                    List<Token> tokenyKeya = skaner.GetAllTokens();
-                    tokenyKeya.Remove(tokenyKeya[tokenyKeya.Count - 1]);
-
-                    if (noweTokeny.Count != 0) noweTokeny.Add(new Token(TokenName.opMnozenie, "*",0,0));  
-
-                    if (rejestr.Value != 0 && rejestr.Value != 1)
-                    {
-                        if (rejestr.Value > 0)
-                        {
-                            noweTokeny.AddRange(tokenyKeya);
-                            noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
-                            noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(rejestr.Value), 0, 0));
-                        }
-                        else
-                        {
-                            double value = -1*rejestr.Value;
-                            noweTokeny.Add(new Token(TokenName.liczba, "1", 0, 0));
-                            noweTokeny.Add(new Token(TokenName.opDzielenie, "/", 0, 0));
-                            noweTokeny.AddRange(tokenyKeya);
-                            noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
-                            noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(value), 0,0));
-                        }
-                    }
-                    else if (rejestr.Value == 0) noweTokeny.Add(new Token(TokenName.liczba, "1",0,0));
-                    else if (rejestr.Value == 1) noweTokeny.AddRange(tokenyKeya);
-                }
-
-                return GeneratorKodu.wygenerujElement(noweTokeny);
+                elementTymczasowy = elementTymczasowy.Dzieci[0];
             }
+
+            List<Token> noweTokeny = new List<Token>();
+            if(wyrazWolny != 1) grupy.Add(GeneratorKodu.doubleToString(wyrazWolny), 1);
+            foreach (var rejestr in grupy.OrderBy(key => key.Key))
+            {
+                Skaner skaner = new Skaner(rejestr.Key, Mode.Line);
+                List<Token> tokenyKeya = skaner.GetAllTokens();
+                tokenyKeya.Remove(tokenyKeya[tokenyKeya.Count - 1]);
+
+                if (noweTokeny.Count != 0) noweTokeny.Add(new Token(TokenName.opMnozenie, "*", 0, 0));
+
+                if (rejestr.Value != 0 && rejestr.Value != 1)
+                {
+                    if (rejestr.Value > 0)
+                    {
+                        noweTokeny.AddRange(tokenyKeya);
+                        noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
+                        noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(rejestr.Value), 0, 0));
+                    }
+                    else
+                    {
+                        double value = -1 * rejestr.Value;
+                        noweTokeny.Add(new Token(TokenName.liczba, "1", 0, 0));
+                        noweTokeny.Add(new Token(TokenName.opDzielenie, "/", 0, 0));
+                        noweTokeny.AddRange(tokenyKeya);
+                        noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
+                        noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(value), 0, 0));
+                    }
+                }
+                else if (rejestr.Value == 0) noweTokeny.Add(new Token(TokenName.liczba, "1", 0, 0));
+                else if (rejestr.Value == 1) noweTokeny.AddRange(tokenyKeya);
+            }
+
+            return GeneratorKodu.wygenerujElement(noweTokeny);
         }
 
         /// <summary>
