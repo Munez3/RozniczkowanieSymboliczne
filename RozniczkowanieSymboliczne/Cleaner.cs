@@ -188,7 +188,8 @@ namespace RozniczkowanieSymboliczne
             for (int i = 0; i < 2; i++)
             {
                 if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy)
-                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Razy) || element.Dzieci[i].Dzieci[0].GetType() ==  typeof(Elem_Dzielenie)
+                //|| element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Razy) 
+                || element.Dzieci[i].Dzieci[0].GetType() ==  typeof(Elem_Dzielenie)
                 || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)))
                 {
                     if (i == 0) tempTokenyLewe.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
@@ -393,8 +394,11 @@ namespace RozniczkowanieSymboliczne
                         noweTokeny.Add(new Token(TokenName.liczba, "1", 0, 0));
                         noweTokeny.Add(new Token(TokenName.opDzielenie, "/", 0, 0));
                         noweTokeny.AddRange(tokenyKeya);
-                        noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
-                        noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(value), 0, 0));
+                        if (value != 1)
+                        {
+                            noweTokeny.Add(new Token(TokenName.opPotega, "^", 0, 0));
+                            noweTokeny.Add(new Token(TokenName.liczba, GeneratorKodu.doubleToString(value), 0, 0));
+                        }
                     }
                 }
                 else if (rejestr.Value == 0) noweTokeny.Add(new Token(TokenName.liczba, "1", 0, 0));

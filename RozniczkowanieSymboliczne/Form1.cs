@@ -156,9 +156,12 @@ namespace RozniczkowanieSymboliczne
         {
             Skaner skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
             Parser parser = new Parser(skaner.GetAllTokens());
-            parser.Parse();
-
-            OutputTB.Text = Cleaner.PorzadkujWyrazenie(wyrazenieTB.Text);
+            try
+            {
+                parser.Parse();
+                OutputTB.Text = Cleaner.PorzadkujWyrazenie(wyrazenieTB.Text);
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
 
         private void wyrazenieTB_TextChanged(object sender, EventArgs e)
