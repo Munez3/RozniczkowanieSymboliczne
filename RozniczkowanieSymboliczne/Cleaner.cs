@@ -138,7 +138,7 @@ namespace RozniczkowanieSymboliczne
 
             for (int i = 0; i < 2; i++)
             {
-                if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy))
+                if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy) || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)))
                 {
                     if (i == 0) tempTokenyPodstawa.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
                     else tempTokenyPotega.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
