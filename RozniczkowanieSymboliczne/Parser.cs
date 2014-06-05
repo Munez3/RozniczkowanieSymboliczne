@@ -135,7 +135,12 @@ namespace RozniczkowanieSymboliczne
                         tokeny[actualTokenIndex].Nazwa == TokenName.ctgFun ||
                         tokeny[actualTokenIndex].Nazwa == TokenName.expFun ||
                         tokeny[actualTokenIndex].Nazwa == TokenName.sqrtFun) sprawdz_jednoargumentowe();
-                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Powinien wystąpić czynnik, a jest: "+tokeny[actualTokenIndex].Wartosc+"!");
+                else
+                {
+                    if(actualTokenIndex-1 >=0 && actualTokenIndex < tokenyLength)
+                        throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Powinien wystąpić czynnik, a jest: " + tokeny[actualTokenIndex].Wartosc + "!");
+                    else throw new Exception("(0:0) Powinien wystąpić czynnik!");
+                }
             }
             else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak czynnika!");
         }
