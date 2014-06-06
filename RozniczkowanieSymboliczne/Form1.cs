@@ -67,8 +67,8 @@ namespace RozniczkowanieSymboliczne
 
         private void liczProsteBtn_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 Skaner skaner;
                 if(listaIdentowLB.SelectedIndex == -1) skaner = new Skaner(wyrazenieTB.Text, Mode.Line);
                 else skaner = new Skaner("#"+listaIdentowLB.SelectedItem+" "+wyrazenieTB.Text, Mode.Line);
@@ -81,8 +81,8 @@ namespace RozniczkowanieSymboliczne
                     generatorKodu = new GeneratorKodu(tokeny);
                     OutputTB.Text = ((!trybDebugCB.Checked)?generatorKodu.WyswietlWyniki(GeneratorMode.Normal):generatorKodu.WyswietlWyniki(GeneratorMode.Debug));
                 }
-            //}
-            //catch (Exception ex) { OutputTB.Text = ex.Message; }
+            }
+            catch (Exception ex) { OutputTB.Text = ex.Message; }
         }
 
         private void liczFileBtn_Click(object sender, EventArgs e)
@@ -138,7 +138,12 @@ namespace RozniczkowanieSymboliczne
 
         private void wyrazenieTB_KeyDown(Object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.Control && e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                porzadkujBtn_Click(sender, (EventArgs)e);
+            }
+            else if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
                 liczProsteBtn_Click(sender, (EventArgs)e);
@@ -180,6 +185,7 @@ namespace RozniczkowanieSymboliczne
                 {
                     if (token.Nazwa == TokenName.ident && !listaIdentowLB.Items.Contains(token.Wartosc)) listaIdentowLB.Items.Add(token.Wartosc);
                 }
+                listaIdentowLB.SetSelected(0, true);
             }
             catch (Exception ex)
             {
