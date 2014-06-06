@@ -163,7 +163,12 @@ namespace RozniczkowanieSymboliczne
             if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.Lnawias) actualTokenIndex++;
             else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak otwarcia nawiasu funkcji: " + tokeny[actualTokenIndex - 1].Wartosc + " !");
 
-            sprawdz_wyrazenie();
+            if (actualTokenIndex < tokenyLength)
+            {
+                if (tokeny[actualTokenIndex].Nazwa == TokenName.liczba) actualTokenIndex++;
+                else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Podstawa logarytmu musi być liczbą!");
+            }
+            else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Podstawa logarytmu musi być liczbą!");
 
             if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.przecinek) actualTokenIndex++;
             else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak przecinka między wyrażeniami funkcji 'log' !");
