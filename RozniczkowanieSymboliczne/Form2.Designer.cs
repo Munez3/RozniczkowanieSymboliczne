@@ -2,7 +2,6 @@
 {
     partial class Form2
     {
-
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -30,16 +29,14 @@
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Trygonometryczne");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("exp");
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("log");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("sqrt");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Funkcje", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4,
-            treeNode5,
-            treeNode6});
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Application", new System.Windows.Forms.TreeNode[] {
+            treeNode5});
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Application", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode7});
+            treeNode6});
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -64,14 +61,12 @@
             treeNode4.Text = "exp";
             treeNode5.Name = "logarytm";
             treeNode5.Text = "log";
-            treeNode6.Name = "sqrt";
-            treeNode6.Text = "sqrt";
-            treeNode7.Name = "Funkcje";
-            treeNode7.Text = "Funkcje";
-            treeNode8.Name = "Application";
-            treeNode8.Text = "Application";
+            treeNode6.Name = "Funkcje";
+            treeNode6.Text = "Funkcje";
+            treeNode7.Name = "Application";
+            treeNode7.Text = "Application";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode8});
+            treeNode7});
             this.treeView1.Size = new System.Drawing.Size(200, 450);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
