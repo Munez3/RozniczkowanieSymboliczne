@@ -5,7 +5,14 @@ using System.Text;
 
 namespace RozniczkowanieSymboliczne
 {
+    /// <summary>
+    /// Tryb wyników generatora kodu
+    /// </summary>
     public enum GeneratorMode { Normal, Debug };
+
+    /// <summary>
+    /// Generator kodu
+    /// </summary>
     class GeneratorKodu
     {
         private List<Token> wszystkieTokeny;
