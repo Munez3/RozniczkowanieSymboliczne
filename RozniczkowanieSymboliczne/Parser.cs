@@ -48,11 +48,11 @@ namespace RozniczkowanieSymboliczne
                 if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;
                 else throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Po for umieszczaj nową linię!");
 
-                //end
-                while (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa != TokenName.endSem) sprawdz_linie();
+                //endfor
+                while (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa != TokenName.endforSem) sprawdz_linie();
 
-                if (actualTokenIndex == tokenyLength) throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak instrukcji End!");
-                else if (tokeny[actualTokenIndex].Nazwa == TokenName.endSem) actualTokenIndex++;
+                if (actualTokenIndex == tokenyLength) throw new Exception("(" + tokeny[actualTokenIndex - 1].Linia + ":" + tokeny[actualTokenIndex - 1].Znak + ") Brak instrukcji Endfor!");
+                else if (tokeny[actualTokenIndex].Nazwa == TokenName.endforSem) actualTokenIndex++;
                 
                 //newline
                 if (actualTokenIndex < tokenyLength && tokeny[actualTokenIndex].Nazwa == TokenName.nowaLinia) actualTokenIndex++;

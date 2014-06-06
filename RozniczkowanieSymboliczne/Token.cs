@@ -14,7 +14,7 @@ namespace RozniczkowanieSymboliczne
         przecinek, Lnawias, Pnawias, hash,
         sinFun, cosFun, tgFun, ctgFun, logFun, expFun, sqrtFun,
         ident, liczba, 
-        forSem, endSem, dwukropek, opRowne, nowaLinia
+        forSem, endforSem, dwukropek, opRowne, nowaLinia
     }; 
 
     /// <summary>

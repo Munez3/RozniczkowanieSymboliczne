@@ -116,12 +116,6 @@ namespace RozniczkowanieSymboliczne
                                 actualTokenIndex += 3; znak += 3;
                                 return new Token(TokenName.forSem, "for", linia, znak);
                             }
-                            //end
-                            if (textToParse.Substring(actualTokenIndex, 3).Equals("end"))
-                            {
-                                actualTokenIndex += 3; znak += 3;
-                                return new Token(TokenName.endSem, "end", linia, znak);
-                            }
                         }
 
                         //niema więcej liter po tym słowie
@@ -170,6 +164,21 @@ namespace RozniczkowanieSymboliczne
                             {
                                 actualTokenIndex += 4; znak += 4;
                                 return new Token(TokenName.sqrtFun, "sqrt", linia, znak);
+                            }
+                        }
+                    }
+
+                    //dlugosc 6
+                    if (actualTokenIndex + 5 < textToParse.Length)
+                    {
+                        //spacja po nazwie
+                        if (actualTokenIndex + 6 == textToParse.Length || Char.IsWhiteSpace(textToParse[actualTokenIndex + 6]))
+                        {
+                            //endfor
+                            if (textToParse.Substring(actualTokenIndex, 6).Equals("endfor"))
+                            {
+                                actualTokenIndex += 6; znak += 6;
+                                return new Token(TokenName.endforSem, "endfor", linia, znak);
                             }
                         }
                     }

@@ -71,7 +71,7 @@ namespace RozniczkowanieSymboliczne
 
                     List<List<Token>> lista = new List<List<Token>>();
 
-                    while (tokeny[actualTokenIndex].Nazwa != TokenName.endSem)
+                    while (tokeny[actualTokenIndex].Nazwa != TokenName.endforSem)
                     {
                         List<Token> temp = new List<Token>();
                         while (tokeny[actualTokenIndex].Nazwa != TokenName.nowaLinia)
