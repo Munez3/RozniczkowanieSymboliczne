@@ -60,23 +60,20 @@ namespace RozniczkowanieSymboliczne
                dziecko.WyliczPochodna(identPoKtorymPochodniujemy);
 
             Pochodna += "(";
-            if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Wyrazenie;
-            else Pochodna += "(" + Dzieci[0].Wyrazenie + ")";
-            Pochodna += "*";
-            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
-            else Pochodna += "(" + Dzieci[1].Pochodna + ")";
-            Pochodna += "-";
             if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Pochodna;
             else Pochodna += "(" + Dzieci[0].Pochodna + ")";
             Pochodna += "*";
             if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Wyrazenie;
             else Pochodna += "(" + Dzieci[1].Wyrazenie + ")";
-            Pochodna += ")/(";
+            Pochodna += "-";
             if (Dzieci[0].GetType() == typeof(Elem_Podstawowy) || Dzieci[0].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[0].Wyrazenie;
             else Pochodna += "(" + Dzieci[0].Wyrazenie + ")";
             Pochodna += "*";
-            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Wyrazenie;
-            else Pochodna += "(" + Dzieci[1].Wyrazenie + ")";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Pochodna;
+            else Pochodna += "(" + Dzieci[1].Pochodna + ")";
+            Pochodna += ")/(";
+            if (Dzieci[1].GetType() == typeof(Elem_Podstawowy) || Dzieci[1].GetType() == typeof(Elem_Nawias)) Pochodna += Dzieci[1].Wyrazenie+"^2";
+            else Pochodna += "(" + Dzieci[1].Wyrazenie +  ")^2";
             Pochodna += ")";
         }
 

@@ -138,7 +138,15 @@ namespace RozniczkowanieSymboliczne
 
             for (int i = 0; i < 2; i++)
             {
-                if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy) || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)))
+                if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && 
+                    (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy) || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cosinus)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Sinus)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Tangens)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cotangens)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Pierwiastek)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Exponenta)
+                    || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Logarytm)))
                 {
                     if (i == 0) tempTokenyPodstawa.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
                     else tempTokenyPotega.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
@@ -190,7 +198,15 @@ namespace RozniczkowanieSymboliczne
                 if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy)
                 //|| element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Razy) 
                 || element.Dzieci[i].Dzieci[0].GetType() ==  typeof(Elem_Dzielenie)
-                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)))
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cosinus)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Sinus)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Tangens)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cotangens)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Pierwiastek)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Exponenta)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Logarytm)
+                ))
                 {
                     if (i == 0) tempTokenyLewe.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
                     else tempTokenyPrawe.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
@@ -240,7 +256,16 @@ namespace RozniczkowanieSymboliczne
             {
                 if (element.Dzieci[i].GetType() == typeof(Elem_Nawias) && (element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Podstawowy)
                 || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Razy) || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Dzielenie)
-                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega)))
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Potega) 
+                
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cosinus)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Sinus)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Tangens)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Cotangens)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Pierwiastek)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Exponenta)
+                || element.Dzieci[i].Dzieci[0].GetType() == typeof(Elem_Logarytm)
+                ))
                 {
                     if(i == 0) tempTokenyLewe.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
                     else tempTokenyPrawe.AddRange(element.Dzieci[i].Dzieci[0].Tokeny);
